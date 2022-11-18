@@ -10,7 +10,7 @@ const routes: Routes = [
   , { path: 'register', component: RegisterPageComponent, pathMatch: 'prefix'}
 ];
 
-@NgModule({
+@NgModule({ 
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
