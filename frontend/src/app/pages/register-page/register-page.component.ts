@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormUtil } from 'src/app/shared/utils/form.utils';
 
 @Component({
   selector: 'app-register-page',
@@ -13,10 +14,14 @@ export class RegisterPageComponent implements OnInit {
   formData = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
-    username: new FormControl(),
-    password: new FormControl(),
-    confirmPassword: new FormControl(),
-    address: new FormControl(),
+    username: new FormControl('', 
+                    [ FormUtil.PatternValidator(/^[a-zA-Z][a-zA-Z0-9]*$/, 'pattern.username')
+                    , Validators.minLength(3)]),
+    password: new FormControl('', 
+                    [ FormUtil.PatternValidator(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])^.+$/,'pattern.password')
+                    , Validators.minLength(5)]),
+    confirmPassword: new FormControl(''/*FormUtil.MatchValidator({matchTo: password}) */),
+    street: new FormControl(),
     city: new FormControl(),
     country: new FormControl()
   });
@@ -27,10 +32,7 @@ export class RegisterPageComponent implements OnInit {
   }
 
   onClick() {
-    var obj = {
-      username: this.formData.controls.username.value
-    };
-    console.log(obj);
+    console.log(this.formData);
   }
 
 }

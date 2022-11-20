@@ -7,7 +7,7 @@
 .card {
     margin: 20px 0px 0px 20px;
     height: calc(100vh - 40px);
-    width: 400px;
+    width: 500px;
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
@@ -23,17 +23,19 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
-    gap: 10px;
+    gap: 6px;
+    align-items: stretch;
 }
 
 .grid-fill-row {
     grid-column: 1 / -1;
-    height: 20px;
-    background-color: black;
 }
 
-
-
 .form-title {
+    text-align: center;
+}
+
+.actions {
+    grid-column: 1 / -1;
     text-align: center;
 }

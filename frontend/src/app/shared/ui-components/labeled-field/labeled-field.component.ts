@@ -36,6 +36,9 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   @Input()
   required: boolean = true;
 
+  @Input()
+  keepLabelSpace: boolean = false;
+
   inputValue: string = '';
   touched: boolean = false;
 
@@ -71,14 +74,14 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
     return this.control ? this.control.invalid! : false;
    }
 
-   public shouldShowError(): boolean {
+   public get invalidButTouched(): boolean {
     const { dirty, touched } = this.control;
     
     return (this.invalid) ? (dirty && touched)! : false;
    }
 
    public get error(): string {
-    return this.translate.instant(FormUtil.errorsFromControl(this.control));
+    return FormUtil.errorsFromControl(this.control, this.translate);
    }
 
 }

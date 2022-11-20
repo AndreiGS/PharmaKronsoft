@@ -5,7 +5,7 @@ span.label-input {
 }
 
 .error-holder {
-    height: 30px;
+    height: 15px;
     color: darkred;
     padding-left: 6px;
 }
@@ -14,6 +14,14 @@ span.label-input {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.invalid-input {
+    border-color: darkred;
+}
+
+.invalid-input:hover {
+    border-color: darkred;
 }
 
 
