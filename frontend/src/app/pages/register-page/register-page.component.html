@@ -4,35 +4,82 @@
 
         <form class="grid-form" [formGroup]="formData">
             <app-labeled-field
-                type="text"
                 formControlName="username"
+                class="grid-fill-row"
+                type="text"
                 labelKey="user.entity.username"
                 inputId="username"
                 [required]="true">
             </app-labeled-field>
-            <div class="grid-fill-row"> 
 
-            </div>
-            <div class="grid-fill-row"> 
+            <app-labeled-field
+                formControlName="password"
+                class="grid-fill-row"
+                type="password"
+                labelKey="user.entity.password"
+                inputId="password"
+                [required]="true">
+            </app-labeled-field>
 
-            </div>
-            <div style="background-color: RED; height: 20px;">
+            <app-labeled-field
+                formControlName="confirmPassword"
+                class="grid-fill-row"
+                type="password"
+                labelKey="user.entity.confirmPassword"
+                inputId="confirmPassword"
+                [required]="true">
+            </app-labeled-field>
             
-            </div>
-            <div style="background-color: RED; height: 20px;">
-            </div>
-            
-            <div class="grid-fill-row"> 
 
-            </div>
-            <div style="background-color: RED; height: 20px;"> 
-            
-            </div>
-            <div style="background-color: RED; height: 20px;"> 
-            
-            </div>
+            <app-labeled-field
+                formControlName="firstName"
+                type="text"
+                labelKey="user.entity.name"
+                placeholder="user.entity.firstName"
+                inputId="firstname"
+                [required]="true">
+            </app-labeled-field>
 
-            <button [disabled]="formData.invalid" type="submit" (click)="onClick()"></button>
+            <app-labeled-field
+                formControlName="lastName"
+                type="text"
+                placeholder="user.entity.lastName"
+                [keepLabelSpace]="true"
+                inputId="lastname"
+                [required]="true">
+            </app-labeled-field>
+
+
+            <app-labeled-field
+                formControlName="street"
+                class="grid-fill-row"
+                type="text"
+                labelKey="user.entity.address"
+                placeholder="user.entity.street"
+                inputId="street"
+                [required]="true">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="city"
+                type="text"
+                placeholder="user.entity.city"
+                inputId="city"
+                [required]="true">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="country"
+                type="text"
+                placeholder="user.entity.country"
+                inputId="country"
+                [required]="true">
+            </app-labeled-field>
+            
+            <div class="actions">
+                <button pButton [disabled]="formData.invalid" type="submit" (click)="onClick()"> {{ 'user.register' | translate }}</button>
+                <div [innerHTML]="'user.registerToLogin' | translate"> </div>
+            </div>
         </form>
     </div>
 </div>

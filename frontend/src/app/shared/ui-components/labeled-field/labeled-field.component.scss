@@ -1,5 +1,15 @@
 .label-input {
-    height: 100px;
     display: flex;
     flex-direction: column;
+    justify-content: stretch;
+}
+
+.stretch-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.label-height {
+    height: 18.4px;
 }

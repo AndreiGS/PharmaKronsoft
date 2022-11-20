@@ -1,11 +1,12 @@
 <div class="label-input">
-    <label [for]="inputId"> {{ labelKey | translate}} </label>
-    <div [ngSwitch]="type">
+    <label [class.label-height]="keepLabelSpace" [for]="inputId"> {{ labelKey | translate}} </label>
+    <div class="stretch-content" [ngSwitch]="true">
         <input
-            [id]="inputId"
-            [placeholder]="placeholder"
             pInputText
-            *ngSwitchCase="'text'"
+            [id]="inputId"
+            [placeholder]="placeholder | translate"
+            [class.invalid-input]=" control.invalid && invalidButTouched"
+            *ngSwitchCase="type == 'text' || type == 'password'"
             [type]="type"
             (input)="onChangeCallback($any($event.target).value)"
             (focus)="markAsTouched()"
@@ -18,7 +19,7 @@
     </div>
 
     <div class="error-holder">
-        <small *ngIf="shouldShowError()">
+        <small *ngIf="invalidButTouched">
             {{error}}
         </small>
     </div>
