@@ -1,1 +1,38 @@
-<p>register-page works!</p>
+<div class="page">
+    <div class="card">
+        <h1 class="form-title"> {{ 'user.register' | translate }} </h1>
+
+        <form class="grid-form" [formGroup]="formData">
+            <app-labeled-field
+                type="text"
+                formControlName="username"
+                labelKey="user.entity.username"
+                inputId="username"
+                [required]="true">
+            </app-labeled-field>
+            <div class="grid-fill-row"> 
+
+            </div>
+            <div class="grid-fill-row"> 
+
+            </div>
+            <div style="background-color: RED; height: 20px;">
+            
+            </div>
+            <div style="background-color: RED; height: 20px;">
+            </div>
+            
+            <div class="grid-fill-row"> 
+
+            </div>
+            <div style="background-color: RED; height: 20px;"> 
+            
+            </div>
+            <div style="background-color: RED; height: 20px;"> 
+            
+            </div>
+
+            <button [disabled]="formData.invalid" type="submit" (click)="onClick()"></button>
+        </form>
+    </div>
+</div>
