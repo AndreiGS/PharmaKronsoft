@@ -1,4 +1,21 @@
 {
     "home": "home",
-    "somrthing": "something"
+    "user": {
+        "login": "Login",
+        "register": "Register",
+        "loginToRegister": "Don't have an account? <a href='register'> Create one </a>",
+        "entity": {
+            "user": "User",
+            "username": "Username",
+            "password": "Password"
+        }
+    },
+    "errors": {
+        "field": {
+            "required": "This field is required.",
+            "pattern": "Pattern invalid",
+            "min": "Please input a value bigger than {{min}}",
+            "unique": "This field must be unique."
+        }
+    }
 }

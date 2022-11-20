@@ -10,8 +10,6 @@ export class AppComponent {
   title = 'frontend';
 
   constructor(public translate: TranslateService) {
-    translate.setDefaultLang('ro');
-    translate.use('ro');
     translate.addLangs(['en']);
   }
 }

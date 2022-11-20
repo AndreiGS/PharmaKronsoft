@@ -1,0 +1,26 @@
+<div class="label-input">
+    <label [for]="inputId"> {{ labelKey | translate}} </label>
+    <div [ngSwitch]="type">
+        <input
+            [id]="inputId"
+            [placeholder]="placeholder"
+            pInputText
+            *ngSwitchCase="'text'"
+            [type]="type"
+            (input)="onChangeCallback($any($event.target).value)"
+            (focus)="markAsTouched()"
+
+            [required]="required"
+            />
+        <p *ngSwitchCaseDefault>
+            Not implemented
+        </p>
+    </div>
+
+    <div class="error-holder">
+        <small *ngIf="shouldShowError()">
+            {{error}}
+        </small>
+    </div>
+    
+</div>

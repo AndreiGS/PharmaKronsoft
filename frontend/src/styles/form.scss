@@ -1,0 +1,27 @@
+span.label-input {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.error-holder {
+    height: 30px;
+    color: darkred;
+    padding-left: 6px;
+}
+
+.action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+//FIXME: move to styles.scss
+:host ::ng-deep .p-button {
+    border-radius: 0; 
+}
+
+:host ::ng-deep .p-inputtext {
+    border-radius: 0;
+}

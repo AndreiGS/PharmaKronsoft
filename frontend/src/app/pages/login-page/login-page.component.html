@@ -1,6 +1,36 @@
 <div class="page">
     <div class="card">
+        <h1 class="form-title"> {{ 'user.login' | translate }} </h1>
 
+        <form [formGroup]="formData">
+            <span class="label-input">
+                <label for="username"> {{ 'user.entity.username' | translate }} </label>
+                <input  type="text" pInputText id="username" formControlName="username" required/>
+                <div class="error-holder">
+                    <small *ngIf="this.formUtil.invalidInputButTouched('username', formData)" >
+                        Error
+                    </small>
+                </div>
+            </span>
+            
+            <span class="label-input">
+                <label for="password"> {{ 'user.entity.password' | translate }} </label>
+                <input type="password" id="password" formControlName="password" pInputText required/>
+                <div class="error-holder">
+                    <small *ngIf="this.formUtil.invalidInputButTouched('password', formData)">
+                        Error
+                    </small>
+                </div>
+            </span>
+            
+            <div class="action">
+                <p-button [disabled]="formData.invalid">
+                    {{ 'user.login' | translate }}
+                </p-button>
+                <div [innerHTML]="'user.loginToRegister' | translate"> </div>
+            </div> 
+        </form>
+        
     </div>
 
 </div>

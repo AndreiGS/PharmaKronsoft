@@ -1,4 +1,21 @@
 {
     "home": "acasa",
-    "somrthing": "something"
+    "user": {
+        "login": "Conectare",
+        "register": "Înregistrare",
+        "loginToRegister": "Nu ai cont? <a href='register'> Crează unul </a>",
+        "entity": {
+            "user": "Utilizator",
+            "username": "Username",
+            "password": "Parola"
+        }
+    },
+    "errors": {
+        "field": {
+            "required": "Acest câmp este obligatoriu.",
+            "pattern": "Acest pattern e invalid.",
+            "min": "Te rog introdu un număr mai mare decât {{min}}",
+            "unique": "Acest câmp trebuie sa fie unic."
+        }
+    }
 }
