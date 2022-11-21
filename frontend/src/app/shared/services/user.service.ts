@@ -11,8 +11,6 @@ export class UserService {
   constructor() { }
 
   public checkIfUsernameExists(username: string): Observable<boolean> {
-    /* TODO: Link to backend */
-
     return timer(this.waitAfterLastChange).pipe(switchMap(() => {
       return of(username == 'uexist').pipe(delay(200))
     }));

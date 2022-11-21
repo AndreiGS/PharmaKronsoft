@@ -33,10 +33,13 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   keepLabelSpace: boolean = false;
 
   inputValue: string = '';
+
   touched: boolean = false;
+  
   disabled: boolean = false;
 
   onChangeCallback = (input: any) => {};
+  
   onTouchedCallback = () => {};
 
   constructor (@Self() @Optional() public control: NgControl
