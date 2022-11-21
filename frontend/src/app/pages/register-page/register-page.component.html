@@ -69,13 +69,13 @@
             </app-labeled-field>
 
             <div class="grid-fill-row">
-                <p-checkbox [formControl]="formData.controls['checkbox']" label="Some value" [binary]="true">
+                <p-checkbox [formControl]="formData.controls['agreeTermsOfService']" [label]="'user.termsOfService' | translate" [binary]="true">
 
                 </p-checkbox>
             </div>
 
             <div class="actions">
-                <button pButton [disabled]="formData.invalid" type="submit" (click)="onClick()"> {{ 'user.register' | translate }}</button>
+                <button pButton [disabled]="isFormDisabled()" type="submit" (click)="onClick()"> {{ 'user.register' | translate }}</button>
                 <div [innerHTML]="'user.registerToLogin' | translate"> </div>
             </div>
         </form>
