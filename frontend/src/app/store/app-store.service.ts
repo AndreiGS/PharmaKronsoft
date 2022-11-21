@@ -16,6 +16,11 @@ export class AppStoreService {
         return this.store.selectSnapshot(AppState);
     }
 
+    public getCountriesByQuery(query: string) {
+        var currentSnapshot = this.currentAppStoreSnapshot;
+        return currentSnapshot.countryList.filter((country: Country) => country.name.toLowerCase().includes(query.toLowerCase()));
+    } 
+
     public fetchCountryList() {
         this.store.dispatch(new FetchCountryList());
     }

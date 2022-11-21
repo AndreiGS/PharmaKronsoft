@@ -3,17 +3,31 @@
     <div class="stretch-content" [ngSwitch]="true">
         <input
             pInputText
+            *ngSwitchCase="type == 'text' || type == 'password'"
             [id]="inputId"
             [placeholder]="placeholder | translate"
-            [class.invalid-input]=" control.invalid && invalidButTouched"
-            *ngSwitchCase="type == 'text' || type == 'password'"
+            [class.invalid-input]="invalidButTouched"
             [type]="type"
             (input)="onChangeCallback($any($event.target).value)"
             (focus)="markAsTouched()"
             (blur)="onBlur()" />
-        <p *ngSwitchCaseDefault>
-            Not implemented
-        </p>
+        
+        <!-- FIXME set autocomplet border-color when invalid -->
+        <p-autoComplete
+            *ngSwitchCase="type == 'autocomplete'"
+            [id]="inputId"
+            [placeholder]="placeholder | translate"
+            [class.invalid-input]="invalidButTouched" 
+            [suggestions]="autocompleteSuggestions"
+            (onSelect)="onSelectAutocomplete($event)"
+            (completeMethod)="search($event.query)"
+            (input)="onChangeCallback($any($event.target).value)"
+            (onFocus)="markAsTouched()"
+            (onFocus)="onBlur()"
+            >
+        </p-autoComplete>
+        
+
     </div>
 
     <div class="error-holder">

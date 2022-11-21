@@ -63,7 +63,9 @@
 
             <app-labeled-field
                 formControlName="country"
-                type="text"
+                type="autocomplete"
+                (autocompleteSearch)="this.autocompleteFx($event.query)"
+                [autocompleteSuggestions]="suggestedCountries"
                 placeholder="user.entity.country"
                 inputId="country">
             </app-labeled-field>
