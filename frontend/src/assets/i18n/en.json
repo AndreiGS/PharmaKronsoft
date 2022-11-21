@@ -9,6 +9,7 @@
             "user": "User",
             "username": "Username",
             "password": "Password",
+            "password_plural": "Passwords",
             "confirmPassword": "Confirm password.",
             "name": "Name",
             "firstName": "First name",
@@ -28,7 +29,10 @@
             },
             "min": "Please input a value bigger than {{min}}",
             "minlength": "Input must be longer than {{length}} characters.",
-            "unique": "This field must be unique."
+            "unique": "This field must be unique.",
+            "matchfail": {
+                "password": "Passwords do not match."
+            }
         }
     }
 }

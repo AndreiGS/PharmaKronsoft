@@ -2,14 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HttpBackend } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
-import { NgxsModule } from '@ngxs/store';
 
-
+import {CheckboxModule} from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -52,7 +50,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
 
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    CheckboxModule
   ],
   providers: [TranslateService],
   bootstrap: [AppComponent]

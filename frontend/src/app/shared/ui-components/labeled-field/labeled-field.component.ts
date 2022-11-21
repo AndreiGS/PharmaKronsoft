@@ -7,13 +7,6 @@ import { FormUtil } from '../../utils/form.utils';
   selector: 'app-labeled-field',
   templateUrl: './labeled-field.component.html',
   styleUrls: ['./labeled-field.component.scss', '../../../../styles/form.scss']
-  /*, providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi:true,
-      useExisting: LabeledFieldComponent
-    }
-  ] <-- CANT BE USED WITH CONSTRUCTOR AS WELL*/
 })
 export class LabeledFieldComponent implements ControlValueAccessor  {
 
@@ -41,9 +34,15 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
 
   inputValue: string = '';
   touched: boolean = false;
+  disabled: boolean = false;
 
   onChangeCallback = (input: any) => {};
   onTouchedCallback = () => {};
+
+  constructor (@Self() @Optional() public control: NgControl
+              , public translate : TranslateService) {
+    this.control && (this.control.valueAccessor = this);
+  }
 
   public writeValue(text: string): void {
       this.inputValue = text;
@@ -57,31 +56,32 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
       this.onTouchedCallback = fn;
   }
 
-  markAsTouched() {
+  public setDisabledState(isDisabled: boolean): void {
+      this.disabled = isDisabled;
+  }
+  
+  public onBlur(): void {
+    this.onTouchedCallback();
+  }
+  
+  public markAsTouched() {
     if(!this.touched) {
       this.touched = true;
       this.onTouchedCallback();
     }
   }
 
-  constructor (@Self() @Optional() public control: NgControl
-              , public translate : TranslateService) {
-    this.control && (this.control.valueAccessor = this);
-   }
-
-
-   public get invalid(): boolean {
+  public get invalid(): boolean {
     return this.control ? this.control.invalid! : false;
-   }
+  }
 
-   public get invalidButTouched(): boolean {
+  public get invalidButTouched(): boolean {
     const { dirty, touched } = this.control;
     
     return (this.invalid) ? (dirty && touched)! : false;
-   }
+  }
 
-   public get error(): string {
+  public get error(): string {
     return FormUtil.errorsFromControl(this.control, this.translate);
-   }
-
+  }
 }

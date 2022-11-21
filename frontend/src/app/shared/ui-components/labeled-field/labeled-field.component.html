@@ -10,9 +10,7 @@
             [type]="type"
             (input)="onChangeCallback($any($event.target).value)"
             (focus)="markAsTouched()"
-
-            [required]="required"
-            />
+            (blur)="onBlur()" />
         <p *ngSwitchCaseDefault>
             Not implemented
         </p>
