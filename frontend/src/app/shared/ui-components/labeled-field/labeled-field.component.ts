@@ -76,9 +76,7 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   }
 
   public get invalidButTouched(): boolean {
-    const { dirty, touched } = this.control;
-    
-    return (this.invalid) ? (dirty && touched)! : false;
+    return FormUtil.invalidControlButTouched(this.control);
   }
 
   public get error(): string {
