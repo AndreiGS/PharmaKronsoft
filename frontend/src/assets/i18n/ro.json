@@ -5,6 +5,7 @@
         "register": "Înregistrare",
         "loginToRegister": "Nu ai cont? <a href='register'> Crează unul </a>",
         "registerToLogin": "Ai deja un cont? <a href='login'> Conectează-te </a>",
+        "termsOfService": "Sunt de acord cu termenii si conditiile ...",
         "entity": {
             "user": "Utilizator",
             "username": "Username",

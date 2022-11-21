@@ -11,26 +11,26 @@ import { CustomValidators } from 'src/app/shared/utils/form.utils';
 export class RegisterPageComponent implements OnInit {
 
   formData = new FormGroup({
-    firstName: new FormControl(),
-    lastName: new FormControl(),
+    firstName: new FormControl('', [ Validators.required ]),
+    lastName: new FormControl('', [ Validators.required ]),
     username: new FormControl('', {
                     validators:  
                       [ Validators.required
-                      , CustomValidators.PatternValidator(/^[a-zA-Z][a-zA-Z0-9]*$/, 'pattern.username')
+                      , CustomValidators.PatternValidator(CustomValidators.RegexPattern.username, 'pattern.username')
                       , Validators.minLength(3) ],
                     asyncValidators: 
                       [ CustomValidators.UniqueUsernameValidator(this.userService) ],
             }),
     password: new FormControl('', 
                     [ Validators.required
-                    , CustomValidators.PatternValidator(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])^.+$/,'pattern.password')
-                    , Validators.minLength(5)]),
+                    , CustomValidators.PatternValidator(CustomValidators.RegexPattern.password,'pattern.password')
+                    , Validators.minLength(5) ]),
     confirmPassword: new FormControl('', 
-                    [CustomValidators.MatchValidator('password', 'matchfail.password')]),
-    street: new FormControl(),
-    city: new FormControl(),
-    country: new FormControl(),
-    checkbox: new FormControl()
+                    [ CustomValidators.MatchValidator('password', 'matchfail.password') ]),
+    street: new FormControl('', [ Validators.required ]),
+    city: new FormControl('', [ Validators.required ]),
+    country: new FormControl('', [ Validators.required ]),
+    agreeTermsOfService: new FormControl(false, [ Validators.required ])
   });
 
   constructor(public userService: UserService) {
@@ -45,6 +45,10 @@ export class RegisterPageComponent implements OnInit {
 
   onClick() {
     console.log(this.formData);
+  }
+
+  public isFormDisabled() {
+    return this.formData.invalid || this.formData.pending || !this.formData.controls['agreeTermsOfService'].value;
   }
 
 }

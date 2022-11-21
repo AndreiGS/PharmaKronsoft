@@ -5,6 +5,7 @@
         "register": "Register",
         "loginToRegister": "Don't have an account? <a href='register'> Create one </a>",
         "registerToLogin": "Already have an account? <a href='login'> Login </a>",
+        "termsOfService": "I agree to the terms of service ...",
         "entity": {
             "user": "User",
             "username": "Username",

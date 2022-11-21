@@ -40,7 +40,7 @@ export class FormUtil {
         if(errors == null)
             return '';
         var inspectedErrorKey = Object.keys(errors)[0];
-        var translateKey = 'errors.field.'; /* where all field errors are found */
+        var translateKey = 'errors.field.'; /* ngx translate location where all field errors are found */
         
         switch(inspectedErrorKey) 
         {
@@ -48,11 +48,11 @@ export class FormUtil {
                 translateKey += inspectedErrorKey; /* translation for these are found in errors.field.minlength */
                 return translate.instant(translateKey, { length: errors[inspectedErrorKey].requiredLength }); /* translation expects {{length}} param */
             case 'matchfail':
-            case 'pattern': /* matchfail and pattern errors are retreived as { matchfail/pattern: translateKey } relative to errors.field */
+            case 'pattern': /* matchfail and pattern errors are retreived as { matchfail/pattern: translateKey (relative to errors.field) } */
                 translateKey += errors[inspectedErrorKey]; 
                 break;
-            default: /* errors where value of error_message is not importang (e.g. required, unique ...) ({error_key: error_message})*/
-                translateKey += inspectedErrorKey; 
+            default: /* errors where value of error_message is not important (e.g. required, unique ...) ({error_key: error_message})*/
+                translateKey += inspectedErrorKey;  
                 break;
         }
         return translate.instant(translateKey);
@@ -61,10 +61,15 @@ export class FormUtil {
 
 export namespace CustomValidators {
 
-    export function PatternValidator(pattern: string | RegExp, message: string): ValidatorFn {
+    export namespace RegexPattern {
+        export const username = /^[a-zA-Z][a-zA-Z0-9]*$/;
+        export const password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])^.+$/;
+    }
+
+    /* messageKey relative to errors.field (e.g. pattern.username, pattern.password, ...) */
+    export function PatternValidator(pattern: string | RegExp, messageKey: string): ValidatorFn {
         const delegateFn = Validators.pattern(pattern);
-        console.log(message);
-        return control => delegateFn(control) === null ? null : {pattern: message };
+        return control => delegateFn(control) === null ? null : {pattern: messageKey };
     }
 
     export function UniqueUsernameValidator(userService: UserService): AsyncValidatorFn {
@@ -86,7 +91,7 @@ export namespace CustomValidators {
                 return null;
             var parent = control.parent as FormGroup;
             var matchToControl = parent.controls[matchTo];
-            return !!control.parent && !!control.parent.value && control.value == matchToControl.value
+            return control.value == matchToControl.value
                 ? null
                 : { matchfail: errorKey }
         };
