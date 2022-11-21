@@ -1,8 +1,12 @@
-import { Component, Input, Optional, Self } from '@angular/core';
+import { Component, EventEmitter, Input, Optional, Output, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, isObservable, of } from 'rxjs';
 import { FormUtil } from '../../utils/form.utils';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+
+@UntilDestroy()
 @Component({
   selector: 'app-labeled-field',
   templateUrl: './labeled-field.component.html',
@@ -31,6 +35,12 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
 
   @Input()
   keepLabelSpace: boolean = false;
+
+  @Output()
+  autocompleteSearch = new EventEmitter<{ query: string }>();
+
+  @Input()
+  autocompleteSuggestions: string[] = [];
 
   inputValue: string = '';
 
@@ -68,10 +78,20 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   }
   
   public markAsTouched() {
+    console.log('mark as touched');
     if(!this.touched) {
       this.touched = true;
       this.onTouchedCallback();
     }
+  }
+
+  public onSelectAutocomplete(selectedString: string) {
+    this.inputValue = selectedString;
+    this.onChangeCallback(selectedString);
+  }
+
+  public search(query: string) {
+    this.autocompleteSearch.emit({ query : query });
   }
 
   public get invalid(): boolean {

@@ -3,13 +3,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import {CheckboxModule} from 'primeng/checkbox';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
 
     TranslateModule.forRoot({
       defaultLanguage: 'en',
@@ -63,7 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     ButtonModule,
     InputTextModule,
-    CheckboxModule
+    CheckboxModule,
+    AutoCompleteModule
   ],
   providers: [TranslateService, AppStoreService],
   bootstrap: [AppComponent]

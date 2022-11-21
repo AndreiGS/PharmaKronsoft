@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CountryService } from 'src/app/shared/services/country.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CustomValidators } from 'src/app/shared/utils/validators.utils';
+import { AppStoreService } from 'src/app/store/app-store.service';
 
 @Component({
   selector: 'app-register-page',
@@ -33,7 +35,10 @@ export class RegisterPageComponent implements OnInit {
     agreeTermsOfService: new FormControl(false, [ Validators.required ])
   });
 
-  constructor(public userService: UserService) {
+  suggestedCountries: string[] = [];
+
+  constructor(public userService: UserService
+              , public appStoreService: AppStoreService) {
     this.formData.controls.password.valueChanges.subscribe(() => {
       this.formData.controls.confirmPassword.updateValueAndValidity();
     });
@@ -49,6 +54,11 @@ export class RegisterPageComponent implements OnInit {
 
   public isFormDisabled() {
     return this.formData.invalid || this.formData.pending || !this.formData.controls['agreeTermsOfService'].value;
+  }
+
+  autocompleteFx(query: string) {
+    var countries: string[] = this.appStoreService.getCountriesByQuery(query).map(item => item.name);
+    this.suggestedCountries = countries;
   }
 
 }
