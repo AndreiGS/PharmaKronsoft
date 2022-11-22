@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */ 
 :root {
     --border-radius: 0;
 }
@@ -10,10 +10,10 @@ body {
 }
 
 .p-button {
-    color: red;
-    border-radius: 0; 
+    border-radius: var(--border-radius); 
 }
 
+
 .p-inputtext {
-    border-radius: 0;
+    border-radius: var(--border-radius);
 }

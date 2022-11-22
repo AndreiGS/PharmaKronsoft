@@ -24,11 +24,12 @@ span.label-input {
     border-color: darkred;
 }
 
-//FIXME: move to styles.scss
-:host ::ng-deep .p-button {
-    border-radius: 0; 
+
+// FIXME weird trick \/
+:host ::ng-deep p-autocomplete .p-inputtext {
+    width: 225px;
 }
 
-:host ::ng-deep .p-inputtext {
-    border-radius: 0;
+:host ::ng-deep p-autocomplete.invalid-input .p-inputtext {
+    border-color: darkred;
 }

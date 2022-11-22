@@ -12,13 +12,13 @@
             (focus)="markAsTouched()"
             (blur)="onBlur()" />
         
-        <!-- FIXME set autocomplet border-color when invalid -->
         <p-autoComplete
             *ngSwitchCase="type == 'autocomplete'"
             [id]="inputId"
             [placeholder]="placeholder | translate"
-            [class.invalid-input]="invalidButTouched" 
+            [class.invalid-input]="invalidButTouched"
             [suggestions]="autocompleteSuggestions"
+            [forceSelection]="forceAutocompleteSelection"
             (onSelect)="onSelectAutocomplete($event)"
             (completeMethod)="search($event.query)"
             (input)="onChangeCallback($any($event.target).value)"
@@ -32,7 +32,7 @@
 
     <div class="error-holder">
         <small *ngIf="invalidButTouched">
-            {{error}}
+            {{error()}}
         </small>
     </div>
     
