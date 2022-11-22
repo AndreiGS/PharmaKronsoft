@@ -36,11 +36,14 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   @Input()
   keepLabelSpace: boolean = false;
 
-  @Output()
-  autocompleteSearch = new EventEmitter<{ query: string }>();
-
   @Input()
   autocompleteSuggestions: string[] = [];
+
+  @Input()
+  forceAutocompleteSelection: boolean = true;
+
+  @Output()
+  autocompleteSearch = new EventEmitter<{ query: string }>();
 
   inputValue: string = '';
 
@@ -94,6 +97,10 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
     this.autocompleteSearch.emit({ query : query });
   }
 
+  public error(): string {
+    return FormUtil.errorsFromControl(this.control, this.translate);
+  }
+
   public get invalid(): boolean {
     return this.control ? this.control.invalid! : false;
   }
@@ -102,7 +109,5 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
     return FormUtil.invalidControlButTouched(this.control);
   }
 
-  public get error(): string {
-    return FormUtil.errorsFromControl(this.control, this.translate);
-  }
+  
 }
