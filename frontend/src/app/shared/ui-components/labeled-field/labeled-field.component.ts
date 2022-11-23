@@ -51,9 +51,9 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   
   disabled: boolean = false;
 
-  onChangeCallback = (input: any) => {};
+  onChangeFn = (input: any) => {};
   
-  onTouchedCallback = () => {};
+  onTouchedFn = () => {};
 
   constructor (@Self() @Optional() public control: NgControl
               , public translate : TranslateService) {
@@ -65,11 +65,11 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   }
 
   public registerOnChange(fn: any): void {
-      this.onChangeCallback = fn;
+      this.onChangeFn = fn;
   }
 
   public registerOnTouched(fn: any): void {
-      this.onTouchedCallback = fn;
+      this.onTouchedFn = fn;
   }
 
   public setDisabledState(isDisabled: boolean): void {
@@ -77,24 +77,28 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   }
   
   public onBlur(): void {
-    this.onTouchedCallback();
+    this.onTouchedFn();
   }
   
   public markAsTouched() {
     console.log('mark as touched');
     if(!this.touched) {
       this.touched = true;
-      this.onTouchedCallback();
+      this.onTouchedFn();
     }
   }
 
   public onSelectAutocomplete(selectedString: string) {
     this.inputValue = selectedString;
-    this.onChangeCallback(selectedString);
+    this.onChangeFn(selectedString);
   }
 
   public search(query: string) {
     this.autocompleteSearch.emit({ query : query });
+  }
+
+  public onclear() {
+    console.log('clear');
   }
 
   public error(): string {

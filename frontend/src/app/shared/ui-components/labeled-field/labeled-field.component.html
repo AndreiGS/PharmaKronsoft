@@ -8,7 +8,7 @@
             [placeholder]="placeholder | translate"
             [class.invalid-input]="invalidButTouched"
             [type]="type"
-            (input)="onChangeCallback($any($event.target).value)"
+            (input)="onChangeFn($any($event.target).value)"
             (focus)="markAsTouched()"
             (blur)="onBlur()" />
         
@@ -21,9 +21,9 @@
             [forceSelection]="forceAutocompleteSelection"
             (onSelect)="onSelectAutocomplete($event)"
             (completeMethod)="search($event.query)"
-            (input)="onChangeCallback($any($event.target).value)"
+            (input)="onChangeFn($any($event.target).value)"
             (onFocus)="markAsTouched()"
-            (onFocus)="onBlur()"
+            (onClear)="onChangeFn($any($event.target).value)"
             >
         </p-autoComplete>
         
