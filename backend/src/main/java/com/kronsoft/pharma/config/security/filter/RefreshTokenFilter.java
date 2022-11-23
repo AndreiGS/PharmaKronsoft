@@ -1,10 +1,12 @@
 package com.kronsoft.pharma.config.security.filter;
 
+import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
 import com.kronsoft.pharma.auth.util.PathChecker;
 import com.kronsoft.pharma.config.security.MyUserDetails;
 import com.kronsoft.pharma.config.security.exception.RFTExpiredException;
 import com.kronsoft.pharma.config.security.util.TokenUtil;
+import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 public class RefreshTokenFilter extends OncePerRequestFilter {
@@ -39,7 +42,14 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         }
 
         String rftToken = tokenUtil.getRefreshHeader(request);
-        if (!tokenUtil.RFT_isValid(rftToken) || authTokenRepository.findByRefreshToken(rftToken).isEmpty()) {
+        AuthToken authToken = authTokenRepository.findByRefreshToken(rftToken).orElseThrow(RFTExpiredException::new);
+
+        if (!Objects.equals(authToken.getJwtToken(), tokenUtil.getJWTHeader(request))) {
+            logger.error("Cannot set user authentication: JWT and RFT do not match");
+            throw new MalformedJwtException("JWT expired");
+        }
+
+        if (!tokenUtil.RFT_isValid(rftToken)) {
             logger.error("Cannot set user authentication: RFT expired");
             throw new RFTExpiredException();
         }
