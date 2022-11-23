@@ -1,6 +1,8 @@
 package com.kronsoft.pharma.config.security.provider;
 
 import com.kronsoft.pharma.config.security.MyUserDetailsService;
+import com.kronsoft.pharma.config.security.token.JWTAuthenticationToken;
+import com.kronsoft.pharma.config.security.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,26 +13,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JWTAuthProvider implements AuthenticationProvider {
+    private final MyUserDetailsService userDetailsService;
+    private final TokenUtil tokenUtil;
+
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    public JWTAuthProvider(MyUserDetailsService userDetailsService, TokenUtil tokenUtil) {
+        this.userDetailsService = userDetailsService;
+        this.tokenUtil = tokenUtil;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String providedUsername = authentication.getPrincipal().toString();
-        UserDetails user = userDetailsService.loadUserByUsername(providedUsername);
+        String providedJWT = authentication.getCredentials().toString();
+        UserDetails user = userDetailsService.loadUserByUsername(tokenUtil.getUsername(providedJWT));
 
-        String providedPassword = authentication.getCredentials().toString();
-        String correctPassword = user.getPassword();
-
-        if(!providedPassword.equals(correctPassword)) {
-            throw new RuntimeException("Incorrect Credentials");
-        }
-
-        return new UsernamePasswordAuthenticationToken(user, authentication.getCredentials(), user.getAuthorities());
+        return new JWTAuthenticationToken(user, authentication.getCredentials(), user.getAuthorities());
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return authentication.equals(JWTAuthenticationToken.class);
     }
 }

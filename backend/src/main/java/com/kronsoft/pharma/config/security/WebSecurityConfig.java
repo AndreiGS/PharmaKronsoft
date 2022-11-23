@@ -2,8 +2,9 @@ package com.kronsoft.pharma.config.security;
 
 import com.kronsoft.pharma.config.security.filter.JWTFilter;
 import com.kronsoft.pharma.config.security.filter.RefreshTokenFilter;
+import com.kronsoft.pharma.config.security.provider.JWTAuthProvider;
+import com.kronsoft.pharma.config.security.provider.UsernamePasswordAuthProvider;
 import com.kronsoft.pharma.config.security.util.TokenConstants;
-import com.kronsoft.pharma.config.security.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,16 +33,21 @@ public class WebSecurityConfig {
     private final RefreshTokenFilter refreshTokenFilter;
     private final JWTFilter jwtFilter;
     private final MyUserDetailsService myUserDetailsService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JWTAuthProvider jwtAuthProvider;
+    private final UsernamePasswordAuthProvider usernamePasswordAuthProvider;
 
     @Autowired
-    public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, MyUserDetailsService myUserDetailsService) {
+    public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, MyUserDetailsService myUserDetailsService, JWTAuthProvider jwtAuthProvider, UsernamePasswordAuthProvider usernamePasswordAuthProvider) {
         this.refreshTokenFilter = refreshTokenFilter;
         this.jwtFilter = jwtFilter;
         this.myUserDetailsService = myUserDetailsService;
+        this.jwtAuthProvider = jwtAuthProvider;
+        this.usernamePasswordAuthProvider = usernamePasswordAuthProvider;
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
         http
             .cors()
             .and()
@@ -56,7 +62,8 @@ public class WebSecurityConfig {
             .and()
             .httpBasic().disable()
             .addFilterAfter(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .authenticationManager(authManager);
         return http.build();
     }
 
@@ -67,17 +74,22 @@ public class WebSecurityConfig {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        if (bCryptPasswordEncoder == null) {
+            bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        }
+        return bCryptPasswordEncoder;
     }
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService)
+    public AuthenticationManager authManager(HttpSecurity http)
             throws Exception {
         return http
                 .getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
+                .userDetailsService(myUserDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder())
                 .and()
+                .authenticationProvider(jwtAuthProvider)
+                .authenticationProvider(usernamePasswordAuthProvider)
                 .build();
     }
 

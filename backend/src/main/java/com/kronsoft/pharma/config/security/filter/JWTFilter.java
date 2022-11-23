@@ -58,7 +58,7 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     private void setAuthToken(AuthToken authToken) {
-        MyUserDetails userDetails = authenticationUtil.authenticate(authToken.getJwtToken());
-        userDetails.setActiveAuthToken(authToken);
+        authenticationUtil.authenticate(authToken.getJwtToken());
+        AuthenticationUtil.getUserDetails().setActiveAuthToken(authToken);
     }
 }

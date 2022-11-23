@@ -2,6 +2,7 @@ package com.kronsoft.pharma.util;
 
 import com.kronsoft.pharma.config.security.MyUserDetails;
 import com.kronsoft.pharma.config.security.MyUserDetailsService;
+import com.kronsoft.pharma.config.security.token.JWTAuthenticationToken;
 import com.kronsoft.pharma.config.security.util.TokenUtil;
 import com.kronsoft.pharma.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationUtil {
     private final AuthenticationManager authenticationManager;
-    private final MyUserDetailsService myUserDetailsService;
-    private final TokenUtil tokenUtil;
 
     @Autowired
-    public AuthenticationUtil(@Lazy AuthenticationManager authenticationManager, @Lazy MyUserDetailsService myUserDetailsService, @Lazy TokenUtil tokenUtil) {
+    public AuthenticationUtil(@Lazy AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.myUserDetailsService = myUserDetailsService;
-        this.tokenUtil = tokenUtil;
     }
 
     public static MyUserDetails getUserDetails() {
@@ -37,13 +34,10 @@ public class AuthenticationUtil {
         securityContext.setAuthentication(authentication);
     }
 
-    public MyUserDetails authenticate(String jwt) {
-        MyUserDetails userDetails = (MyUserDetails) myUserDetailsService.loadUserByUsername(tokenUtil.getUsername(jwt));
-        AppUser user = userDetails.getUser();
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+    public void authenticate(String jwt) {
+        JWTAuthenticationToken authRequest = new JWTAuthenticationToken(null, jwt);
         Authentication authentication = authenticationManager.authenticate(authRequest);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-        return userDetails;
     }
 }
