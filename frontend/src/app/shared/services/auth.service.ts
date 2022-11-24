@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
 import { UserLoginDTO } from '../models/user-dtos';
 import { JWTToken } from '../utils/jwt-token.utils';
 import { LocalStorageService } from './local-storage.service';
@@ -21,7 +22,7 @@ export class AuthService {
     
   }
 
-  public register() {
+  public register(user: User) {
 
   }
 
