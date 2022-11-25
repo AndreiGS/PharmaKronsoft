@@ -32,7 +32,7 @@ export class RegisterPageComponent implements OnInit {
     street: new FormControl('', [ Validators.required ]),
     city: new FormControl('', [ Validators.required ]),
     country: new FormControl('', [ Validators.required ]),
-    agreeTermsOfService: new FormControl(false, [ Validators.required ])
+    agreeTermsOfService: new FormControl(false, [ Validators.requiredTrue ])
   });
 
   suggestedCountries: string[] = [];
@@ -53,7 +53,7 @@ export class RegisterPageComponent implements OnInit {
   }
 
   public isFormDisabled() {
-    return this.formData.invalid || this.formData.pending || !this.formData.controls['agreeTermsOfService'].value;
+    return this.formData.invalid || this.formData.pending;
   }
 
   autocompleteFx(query: string) {
