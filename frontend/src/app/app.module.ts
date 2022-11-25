@@ -25,6 +25,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LabeledFieldComponent } from './shared/ui-components/labeled-field/labeled-field.component';
 import { AppStoreService } from './store/app-store.service';
 import { AppState } from './store/app-store.state';
+import { UserState } from './store/user-store.state';
+import { UserStoreService } from './store/user-store.service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -59,7 +61,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
 
     NgxsModule.forRoot([
-      AppState
+      AppState,
+      UserState
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
@@ -69,7 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CheckboxModule,
     AutoCompleteModule
   ],
-  providers: [TranslateService, AppStoreService],
+  providers: [TranslateService, AppStoreService, UserStoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@ export class UserService {
   waitAfterLastChange: number = 300;
 
   constructor() { }
-
+  // TODO: move to user-store-service?
   public checkIfUsernameExists(username: string): Observable<boolean> {
     return timer(this.waitAfterLastChange).pipe(switchMap(() => {
       return of(username == 'uexist').pipe(delay(200))
