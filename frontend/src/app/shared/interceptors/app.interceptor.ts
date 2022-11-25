@@ -10,12 +10,14 @@ export class AppInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token = this.authService.getJwtAccessToken;
-        req = req.clone({
-            url: req.url,
-            setHeaders: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        if(token) {
+            req = req.clone({
+                url: req.url,
+                setHeaders: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }
         return next.handle(req);
     }
     
