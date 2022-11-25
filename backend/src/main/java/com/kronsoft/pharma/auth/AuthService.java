@@ -10,14 +10,9 @@ import com.kronsoft.pharma.auth.role.exeption.NotRoleException;
 import com.kronsoft.pharma.user.AppUser;
 import com.kronsoft.pharma.user.UserRepository;
 import com.kronsoft.pharma.util.AuthenticationUtil;
-import com.kronsoft.pharma.util.C_ResponseEntity;
+import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.kronsoft.pharma.auth.role.constants.RoleConstants;
@@ -42,14 +37,14 @@ public class AuthService {
         this.authenticationUtil = authenticationUtil;
     }
 
-    public C_ResponseEntity<UserResponseDto> register(RegisterDto registerDto) {
+    public ResponseEntityWrapper<UserResponseDto> register(RegisterDto registerDto) {
         AppUser user = userMapper.registerToUser(registerDto);
         user.setRoles(getRoles(registerDto));
         user.setPassword(encoder.encode(registerDto.getPassword()));
         AppUser newUser = userRepository.save(user);
         authenticationUtil.authenticate(newUser);
 
-        return new C_ResponseEntity<>(userMapper.userToUserResponseDto(newUser), HttpStatus.CREATED);
+        return new ResponseEntityWrapper<>(userMapper.userToUserResponseDto(newUser), HttpStatus.CREATED);
     }
 
     private Set<Role> getRoles(RegisterDto registerDto) {

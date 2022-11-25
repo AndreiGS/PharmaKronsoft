@@ -12,12 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.MultiValueMapAdapter;
 
 import javax.annotation.PostConstruct;
 
 @Component
-public class C_ResponseEntity<T> extends ResponseEntity<T> {
+public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
     @JsonIgnore
     private static AuthTokenRepository k_authTokenRepository;
     @JsonIgnore
@@ -32,8 +31,8 @@ public class C_ResponseEntity<T> extends ResponseEntity<T> {
 
     @PostConstruct
     private void initializeBeans() {
-        C_ResponseEntity.k_authTokenRepository = this.authTokenRepository;
-        C_ResponseEntity.k_tokenUtil = this.tokenUtil;
+        ResponseEntityWrapper.k_authTokenRepository = this.authTokenRepository;
+        ResponseEntityWrapper.k_tokenUtil = this.tokenUtil;
     }
 
     private static<T> ResponseEntity<T> build(T body, MultiValueMap<String, String> headers, HttpStatus status) {
@@ -48,27 +47,27 @@ public class C_ResponseEntity<T> extends ResponseEntity<T> {
 
     private static<T> ResponseEntity<T> build(T body, HttpStatus status) {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        return C_ResponseEntity.build(body, headers, status);
+        return ResponseEntityWrapper.build(body, headers, status);
     }
 
-    public C_ResponseEntity() {
+    public ResponseEntityWrapper() {
         this(null, HttpStatus.OK);
     }
 
-    public C_ResponseEntity(T body, HttpStatus status) {
+    public ResponseEntityWrapper(T body, HttpStatus status) {
         this(build(body, status));
     }
 
-    public C_ResponseEntity(T body, MultiValueMap<String, String> headers, HttpStatus status) {
+    public ResponseEntityWrapper(T body, MultiValueMap<String, String> headers, HttpStatus status) {
         this(build(body, headers, status));
     }
 
-    private C_ResponseEntity(ResponseEntity<T> responseEntity) {
+    private ResponseEntityWrapper(ResponseEntity<T> responseEntity) {
         super(responseEntity.getBody(), responseEntity.getHeaders(), responseEntity.getStatusCode());
     }
 
     private static AuthToken init() {
-        if (C_ResponseEntity.k_authTokenRepository == null || C_ResponseEntity.k_tokenUtil == null) {
+        if (ResponseEntityWrapper.k_authTokenRepository == null || ResponseEntityWrapper.k_tokenUtil == null) {
             return null;
         }
 
@@ -77,8 +76,8 @@ public class C_ResponseEntity<T> extends ResponseEntity<T> {
             return null;
         }
         if (userDetails.getActiveAuthToken() != null) {
-            C_ResponseEntity.k_authTokenRepository.delete(userDetails.getActiveAuthToken());
+            ResponseEntityWrapper.k_authTokenRepository.delete(userDetails.getActiveAuthToken());
         }
-        return C_ResponseEntity.k_authTokenRepository.save(new AuthToken(C_ResponseEntity.k_tokenUtil.JWT_generate(userDetails.getUser().getUsername()), C_ResponseEntity.k_tokenUtil.RFT_generate(), userDetails.getUser()));
+        return ResponseEntityWrapper.k_authTokenRepository.save(new AuthToken(ResponseEntityWrapper.k_tokenUtil.JWT_generate(userDetails.getUser().getUsername()), ResponseEntityWrapper.k_tokenUtil.RFT_generate(), userDetails.getUser()));
     }
 }
