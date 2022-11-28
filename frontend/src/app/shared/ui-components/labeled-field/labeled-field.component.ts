@@ -37,7 +37,10 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   keepLabelSpace: boolean = false;
 
   @Input()
-  autocompleteSuggestions: string[] = [];
+  autocompleteSuggestions: any[] = [];
+
+  @Input()
+  autocompleteSuggestionDisplayedProp: string = '';
 
   @Input()
   forceAutocompleteSelection: boolean = true;
@@ -45,7 +48,10 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   @Output()
   autocompleteSearch = new EventEmitter<{ query: string }>();
 
-  inputValue: string = '';
+  @Output()
+  autocompleteSelected = new EventEmitter<{value: any}>();
+
+  inputValue: any = '';
 
   touched: boolean = false;
   
@@ -60,8 +66,8 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
     this.control && (this.control.valueAccessor = this);
   }
 
-  public writeValue(text: string): void {
-      this.inputValue = text;
+  public writeValue(value: any): void {
+    this.inputValue = value;
   }
 
   public registerOnChange(fn: any): void {
@@ -81,7 +87,6 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   }
   
   public markAsTouched() {
-    console.log('mark as touched');
     if(!this.touched) {
       this.touched = true;
       this.onTouchedFn();
@@ -91,7 +96,9 @@ export class LabeledFieldComponent implements ControlValueAccessor  {
   public onSelectAutocomplete(selectedString: string) {
     this.inputValue = selectedString;
     this.onChangeFn(selectedString);
+    this.autocompleteSelected.emit({value: selectedString});
   }
+
 
   public search(query: string) {
     this.autocompleteSearch.emit({ query : query });
