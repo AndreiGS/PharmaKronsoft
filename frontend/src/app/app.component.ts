@@ -17,5 +17,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.appStoreService.fetchCountryList();
+    this.appStoreService.fetchCityList();
   }
 }

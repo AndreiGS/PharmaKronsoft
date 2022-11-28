@@ -5,6 +5,7 @@
             pInputText
             *ngSwitchCase="type == 'text' || type == 'password'"
             [id]="inputId"
+            [value]="inputValue"
             [placeholder]="placeholder | translate"
             [class.invalid-input]="invalidButTouched"
             [type]="type"
@@ -18,7 +19,9 @@
             [placeholder]="placeholder | translate"
             [class.invalid-input]="invalidButTouched"
             [suggestions]="autocompleteSuggestions"
+            [field]="autocompleteSuggestionDisplayedProp"
             [forceSelection]="forceAutocompleteSelection"
+            [(ngModel)]="inputValue"
             (onSelect)="onSelectAutocomplete($event)"
             (completeMethod)="search($event.query)"
             (input)="onChangeFn($any($event.target).value)"

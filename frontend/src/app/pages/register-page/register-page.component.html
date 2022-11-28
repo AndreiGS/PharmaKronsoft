@@ -56,7 +56,11 @@
 
             <app-labeled-field
                 formControlName="city"
-                type="text"
+                type="autocomplete"
+                (autocompleteSearch)="this.autocompleteCityFx($event.query)"
+                [autocompleteSuggestions]="suggestedCities"
+                (autocompleteSelected)="this.onCityAutocompleteSelect()"
+                autocompleteSuggestionDisplayedProp="name"
                 placeholder="user.entity.city"
                 inputId="city">
             </app-labeled-field>
@@ -64,8 +68,10 @@
             <app-labeled-field
                 formControlName="country"
                 type="autocomplete"
-                (autocompleteSearch)="this.autocompleteFx($event.query)"
+                (autocompleteSearch)="this.autocompleteCountryFx($event.query)"
                 [autocompleteSuggestions]="suggestedCountries"
+                (autocompleteSelected)="this.onCountryAutocompleteSelect()"
+                autocompleteSuggestionDisplayedProp="name"
                 placeholder="user.entity.country"
                 inputId="country">
             </app-labeled-field>
