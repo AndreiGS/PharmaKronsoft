@@ -1,0 +1,21 @@
+.label-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.stretch-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.label-height {
+    height: 18.4px;
+}
+
+// input.p-element.ng-tns-c55-0.p-autocomplete-input.p-inputtext.p-component. ...
+
+.invalid-input.p-autocomplete-input {
+    border-color: darkred;
+}

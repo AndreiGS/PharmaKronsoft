@@ -1,0 +1,40 @@
+<div class="label-input">
+    <label [class.label-height]="keepLabelSpace" [for]="inputId"> {{ labelKey | translate}} </label>
+    <div class="stretch-content" [ngSwitch]="true">
+        <input
+            pInputText
+            *ngSwitchCase="type == 'text' || type == 'password'"
+            [id]="inputId"
+            [value]="inputValue"
+            [placeholder]="placeholder | translate"
+            [class.invalid-input]="invalidButTouched"
+            [type]="type"
+            (input)="onChangeFn($any($event.target).value)"
+            (focus)="markAsTouched()"
+            (blur)="onBlur()" />
+        
+        <p-autoComplete
+            *ngSwitchCase="type == 'autocomplete'"
+            [id]="inputId"
+            [placeholder]="placeholder | translate"
+            [class.invalid-input]="invalidButTouched"
+            [suggestions]="autocompleteSuggestions"
+            [field]="autocompleteSuggestionDisplayedProp"
+            [forceSelection]="forceAutocompleteSelection"
+            [(ngModel)]="inputValue"
+            (onSelect)="onSelectAutocomplete($event)"
+            (completeMethod)="search($event.query)"
+            (input)="onChangeFn($any($event.target).value)"
+            (onFocus)="markAsTouched()"
+            (onClear)="onChangeFn($any($event.target).value)"
+            >
+        </p-autoComplete>
+    </div>
+
+    <div class="error-holder">
+        <small *ngIf="invalidButTouched">
+            {{error()}}
+        </small>
+    </div>
+    
+</div>

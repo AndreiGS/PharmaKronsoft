@@ -1,0 +1,35 @@
+span.label-input {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.error-holder {
+    height: 15px;
+    color: darkred;
+    padding-left: 6px;
+}
+
+.action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.invalid-input {
+    border-color: darkred;
+}
+
+.invalid-input:hover {
+    border-color: darkred;
+}
+
+
+// FIXME weird trick \/
+:host ::ng-deep p-autocomplete .p-inputtext {
+    width: 225px;
+}
+
+:host ::ng-deep p-autocomplete.invalid-input .p-inputtext {
+    border-color: darkred;
+}

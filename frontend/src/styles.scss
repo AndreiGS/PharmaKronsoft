@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */ 
+:root {
+    --border-radius: 0;
+}
+
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.p-button {
+    border-radius: var(--border-radius); 
+}
+
+
+.p-inputtext {
+    border-radius: var(--border-radius);
+}

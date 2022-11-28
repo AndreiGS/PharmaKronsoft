@@ -1,0 +1,40 @@
+{
+    "home": "acasa",
+    "user": {
+        "login": "Conectare",
+        "register": "Înregistrare",
+        "loginToRegister": "Nu ai cont? <a href='register'> Crează unul </a>",
+        "registerToLogin": "Ai deja un cont? <a href='login'> Conectează-te </a>",
+        "termsOfService": "Sunt de acord cu termenii si conditiile ...",
+        "entity": {
+            "user": "Utilizator",
+            "username": "Username",
+            "password": "Parola",
+            "password_plural": "Parolele",
+            "confirmPassword": "Confirmați parola.",
+            "name": "Nume",
+            "firstName": "Prenume",
+            "lastName": "Nume de familie",
+            "address": "Adresa",
+            "street": "Strada",
+            "country": "Tara",
+            "city": "Oras"
+        }
+    },
+    "errors": {
+        "field": {
+            "required": "Acest câmp este obligatoriu.",
+            "pattern": {
+                "email": "Email invalid.",
+                "username": "Numele de utilizator poate contine doar litere si cifre. Trebuie sa inceapa cu o litera.",
+                "password": "Parola trebuie sa contina cel putin o litera mica, o majuscula si o cifra."
+            },
+            "min": "Te rog introdu un număr mai mare decât {{min}}",
+            "minlength": "Input must be longer than {{length}} characters.",
+            "unique": "Acest câmp trebuie sa fie unic.",
+            "matchfail": {
+                "password": "Parolele nu se potrivesc."
+            }
+        }
+    }
+}

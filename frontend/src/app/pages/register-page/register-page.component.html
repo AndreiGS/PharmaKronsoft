@@ -1,0 +1,91 @@
+<div class="page">
+    <div class="card">
+        <h1 class="form-title"> {{ 'user.register' | translate }} </h1>
+
+        <form class="grid-form" [formGroup]="formData">
+            <app-labeled-field
+                formControlName="username"
+                class="grid-fill-row"
+                type="text"
+                labelKey="user.entity.username"
+                inputId="username">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="password"
+                class="grid-fill-row"
+                type="password"
+                labelKey="user.entity.password"
+                inputId="password">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="confirmPassword"
+                class="grid-fill-row"
+                type="password"
+                labelKey="user.entity.confirmPassword"
+                inputId="confirmPassword">
+            </app-labeled-field>
+            
+
+            <app-labeled-field
+                formControlName="firstName"
+                type="text"
+                labelKey="user.entity.name"
+                placeholder="user.entity.firstName"
+                inputId="firstname">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="lastName"
+                type="text"
+                placeholder="user.entity.lastName"
+                [keepLabelSpace]="true"
+                inputId="lastname">
+            </app-labeled-field>
+
+
+            <app-labeled-field
+                formControlName="street"
+                class="grid-fill-row"
+                type="text"
+                labelKey="user.entity.address"
+                placeholder="user.entity.street"
+                inputId="street">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="city"
+                type="autocomplete"
+                (autocompleteSearch)="this.autocompleteCityFx($event.query)"
+                [autocompleteSuggestions]="suggestedCities"
+                (autocompleteSelected)="this.onCityAutocompleteSelect()"
+                autocompleteSuggestionDisplayedProp="name"
+                placeholder="user.entity.city"
+                inputId="city">
+            </app-labeled-field>
+
+            <app-labeled-field
+                formControlName="country"
+                type="autocomplete"
+                (autocompleteSearch)="this.autocompleteCountryFx($event.query)"
+                [autocompleteSuggestions]="suggestedCountries"
+                (autocompleteSelected)="this.onCountryAutocompleteSelect()"
+                autocompleteSuggestionDisplayedProp="name"
+                placeholder="user.entity.country"
+                inputId="country">
+            </app-labeled-field>
+
+            <div class="grid-fill-row">
+                <p-checkbox [formControl]="formData.controls['agreeTermsOfService']" [label]="'user.termsOfService' | translate" [binary]="true">
+
+                </p-checkbox>
+            </div>
+
+            <div class="actions">
+                <button pButton [disabled]="isFormDisabled()" type="submit" (click)="onClick()"> {{ 'user.register' | translate }}</button>
+                <div [innerHTML]="'user.registerToLogin' | translate"> </div>
+            </div>
+        </form>
+    </div>
+</div>

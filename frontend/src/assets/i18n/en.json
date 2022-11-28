@@ -1,0 +1,39 @@
+{
+    "home": "home",
+    "user": {
+        "login": "Login",
+        "register": "Register",
+        "loginToRegister": "Don't have an account? <a href='register'> Create one </a>",
+        "registerToLogin": "Already have an account? <a href='login'> Login </a>",
+        "termsOfService": "I agree to the terms of service ...",
+        "entity": {
+            "user": "User",
+            "username": "Username",
+            "password": "Password",
+            "password_plural": "Passwords",
+            "confirmPassword": "Confirm password.",
+            "name": "Name",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "address": "Address",
+            "street": "Street",
+            "country": "Country",
+            "city": "City"
+        }
+    },
+    "errors": {
+        "field": {
+            "required": "This field is required.",
+            "pattern": {
+                "username": "Username must only contain letters and digits. It must start with a letter.",
+                "password": "Password must contain at least a small letter, a capital letter and a digit."
+            },
+            "min": "Please input a value bigger than {{min}}",
+            "minlength": "Input must be longer than {{length}} characters.",
+            "unique": "This field must be unique.",
+            "matchfail": {
+                "password": "Passwords do not match."
+            }
+        }
+    }
+}
