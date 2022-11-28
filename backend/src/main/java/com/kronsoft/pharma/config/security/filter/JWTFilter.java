@@ -3,10 +3,8 @@ package com.kronsoft.pharma.config.security.filter;
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
 import com.kronsoft.pharma.auth.util.PathChecker;
-import com.kronsoft.pharma.config.security.MyUserDetails;
 import com.kronsoft.pharma.config.security.util.TokenUtil;
 import com.kronsoft.pharma.util.AuthenticationUtil;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
@@ -45,7 +41,7 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        String jwt = tokenUtil.getJWTHeader(request);
+        String jwt = tokenUtil.getJWTFromHeader(request);
         AuthToken authToken = authTokenRepository.findByJwtToken(jwt).orElseThrow(() -> new MalformedJwtException("JWT invalid"));
 
         if (!tokenUtil.JWT_isValid(jwt)) {

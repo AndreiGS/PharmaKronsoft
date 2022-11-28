@@ -15,40 +15,24 @@ import org.springframework.util.MultiValueMap;
 
 import javax.annotation.PostConstruct;
 
+
+/**
+ * Class to use whenever the user has to get another pair of JWT and RefreshToken
+ * Automatization of token creation
+ * @param <T> the type of the response body
+ */
 @Component
 public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
     @JsonIgnore
     private static AuthTokenRepository k_authTokenRepository;
     @JsonIgnore
-    @Autowired
-    private AuthTokenRepository authTokenRepository;
-
-    @JsonIgnore
     private static TokenUtil k_tokenUtil;
     @JsonIgnore
     @Autowired
+    private AuthTokenRepository authTokenRepository;
+    @JsonIgnore
+    @Autowired
     private TokenUtil tokenUtil;
-
-    @PostConstruct
-    private void initializeBeans() {
-        ResponseEntityWrapper.k_authTokenRepository = this.authTokenRepository;
-        ResponseEntityWrapper.k_tokenUtil = this.tokenUtil;
-    }
-
-    private static<T> ResponseEntity<T> build(T body, MultiValueMap<String, String> headers, HttpStatus status) {
-        AuthToken authToken = init();
-        if (authToken == null) {
-            return new ResponseEntity<>(body, headers, status);
-        }
-        headers.add(TokenConstants.JWT_HEADER, authToken.getJwtToken());
-        headers.add(TokenConstants.REFRESH_HEADER, authToken.getRefreshToken());
-        return new ResponseEntity<>(body, headers, status);
-    }
-
-    private static<T> ResponseEntity<T> build(T body, HttpStatus status) {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        return ResponseEntityWrapper.build(body, headers, status);
-    }
 
     public ResponseEntityWrapper() {
         this(null, HttpStatus.OK);
@@ -66,6 +50,37 @@ public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
         super(responseEntity.getBody(), responseEntity.getHeaders(), responseEntity.getStatusCode());
     }
 
+    /**
+     * Used to build the response for the specific request
+     * @param body template parameter used as response body
+     * @param headers map of headers to send as response
+     * @param status status of current request
+     * @return response entity for current request with the new tokens inserted into the map already provided
+     */
+    private static <T> ResponseEntity<T> build(T body, MultiValueMap<String, String> headers, HttpStatus status) {
+        AuthToken authToken = init();
+        if (authToken == null) {
+            return new ResponseEntity<>(body, headers, status);
+        }
+        headers.add(TokenConstants.JWT_HEADER, authToken.getJwtToken());
+        headers.add(TokenConstants.REFRESH_HEADER, authToken.getRefreshToken());
+        return new ResponseEntity<>(body, headers, status);
+    }
+
+    /**
+     * @param body template parameter used as response body
+     * @param status status of current request
+     * @return response entity for current request with the new tokens inserted into an empty MultiValueMap used for headers
+     */
+    private static <T> ResponseEntity<T> build(T body, HttpStatus status) {
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        return ResponseEntityWrapper.build(body, headers, status);
+    }
+
+    /**
+     * This method is responsible for recreating the authentication tokens and deleting the used ones
+     * @return new user authentication token
+     */
     private static AuthToken init() {
         if (ResponseEntityWrapper.k_authTokenRepository == null || ResponseEntityWrapper.k_tokenUtil == null) {
             return null;
@@ -79,5 +94,16 @@ public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
             ResponseEntityWrapper.k_authTokenRepository.delete(userDetails.getActiveAuthToken());
         }
         return ResponseEntityWrapper.k_authTokenRepository.save(new AuthToken(ResponseEntityWrapper.k_tokenUtil.JWT_generate(userDetails.getUser().getUsername()), ResponseEntityWrapper.k_tokenUtil.RFT_generate(), userDetails.getUser()));
+    }
+
+
+    /**
+     * Initializes the beans constructed during the startup into the static repository members
+     * Static members are needed in order to use the build method and used in automating the recreation of auth tokens
+     */
+    @PostConstruct
+    private void initializeBeans() {
+        ResponseEntityWrapper.k_authTokenRepository = this.authTokenRepository;
+        ResponseEntityWrapper.k_tokenUtil = this.tokenUtil;
     }
 }

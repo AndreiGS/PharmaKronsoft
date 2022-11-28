@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Date;
 
+/**
+ * Utility class that provides token manipulation methods (creation and validation methods)
+ */
 @Component
 public class TokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(TokenUtil.class);
@@ -67,6 +70,10 @@ public class TokenUtil {
     }
 
 
+    /**
+     * @param token JWT authentication token
+     * @return username extracted from the JWT token used
+     */
     public String getUsername(String token) {
         if(token.startsWith("Bearer")) {
             token = token.substring(7);
@@ -74,6 +81,11 @@ public class TokenUtil {
         return Jwts.parserBuilder().setSigningKey(JWT_SigningKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
+    /**
+     * @param key the signing key used to encrypt the token
+     * @param token the token that needs validation
+     * @return the validity state of the token
+     */
     private boolean isValid(Key key, String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -101,11 +113,20 @@ public class TokenUtil {
         return isValid(RFT_SigningKey, token);
     }
 
-    public String getJWTHeader(HttpServletRequest request) {
+    /**
+     * @param request the request provided by rest application endpoind
+     * @return jwt token extracted from header
+     */
+    public String getJWTFromHeader(HttpServletRequest request) {
         return request.getHeader(TokenConstants.JWT_HEADER);
     }
 
-    public String getRefreshHeader(HttpServletRequest request) {
+
+    /**
+     * @param request the request provided by rest application endpoind
+     * @return jwt token extracted from header
+     */
+    public String getRefreshFromHeader(HttpServletRequest request) {
         return request.getHeader(TokenConstants.REFRESH_HEADER);
     }
 }

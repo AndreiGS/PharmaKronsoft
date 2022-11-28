@@ -6,7 +6,7 @@ import com.kronsoft.pharma.user.dto.UserResponseDto;
 import com.kronsoft.pharma.user.mapper.UserMapper;
 import com.kronsoft.pharma.auth.role.Role;
 import com.kronsoft.pharma.auth.role.RoleRepository;
-import com.kronsoft.pharma.auth.role.exeption.NotRoleException;
+import com.kronsoft.pharma.auth.exception.InvalidRoleException;
 import com.kronsoft.pharma.user.AppUser;
 import com.kronsoft.pharma.user.UserRepository;
 import com.kronsoft.pharma.util.AuthenticationUtil;
@@ -53,24 +53,24 @@ public class AuthService {
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(NotRoleException::new);
+                    .orElseThrow(InvalidRoleException::new);
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case RoleConstants.ADMIN:
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(NotRoleException::new);
+                                .orElseThrow(InvalidRoleException::new);
                         roles.add(adminRole);
                         break;
                     case RoleConstants.MODERATOR:
                         Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(NotRoleException::new);
+                                .orElseThrow(InvalidRoleException::new);
                         roles.add(modRole);
                         break;
                     default:
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(NotRoleException::new);
+                                .orElseThrow(InvalidRoleException::new);
                         roles.add(userRole);
                         break;
                 }

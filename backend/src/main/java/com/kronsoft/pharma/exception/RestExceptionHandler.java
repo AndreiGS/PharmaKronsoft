@@ -1,6 +1,6 @@
 package com.kronsoft.pharma.exception;
 
-import com.kronsoft.pharma.auth.role.exeption.NotRoleException;
+import com.kronsoft.pharma.auth.exception.InvalidRoleException;
 import com.kronsoft.pharma.config.security.exception.RFTExpiredException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.core.Ordered;
@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import javax.management.relation.Role;
-import javax.management.relation.RoleNotFoundException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -32,9 +29,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(RFTExpiredException.status, ex.getMessage(), ex));
     }
 
-    @ExceptionHandler(NotRoleException.class)
-    protected ResponseEntity<Object> handleSave(NotRoleException ex) {
-        return buildResponseEntity(new ApiError(NotRoleException.status, ex.getMessage(), ex));
+    @ExceptionHandler(InvalidRoleException.class)
+    protected ResponseEntity<Object> handleSave(InvalidRoleException ex) {
+        return buildResponseEntity(new ApiError(InvalidRoleException.status, ex.getMessage(), ex));
     }
 
     @ExceptionHandler(MalformedJwtException.class)

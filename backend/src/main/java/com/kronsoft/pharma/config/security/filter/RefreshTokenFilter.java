@@ -3,7 +3,6 @@ package com.kronsoft.pharma.config.security.filter;
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
 import com.kronsoft.pharma.auth.util.PathChecker;
-import com.kronsoft.pharma.config.security.MyUserDetails;
 import com.kronsoft.pharma.config.security.exception.RFTExpiredException;
 import com.kronsoft.pharma.config.security.util.TokenUtil;
 import io.jsonwebtoken.MalformedJwtException;
@@ -41,10 +40,10 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        String rftToken = tokenUtil.getRefreshHeader(request);
+        String rftToken = tokenUtil.getRefreshFromHeader(request);
         AuthToken authToken = authTokenRepository.findByRefreshToken(rftToken).orElseThrow(RFTExpiredException::new);
 
-        if (!Objects.equals(authToken.getJwtToken(), tokenUtil.getJWTHeader(request))) {
+        if (!Objects.equals(authToken.getJwtToken(), tokenUtil.getJWTFromHeader(request))) {
             logger.error("Cannot set user authentication: JWT and RFT do not match");
             throw new MalformedJwtException("JWT expired");
         }

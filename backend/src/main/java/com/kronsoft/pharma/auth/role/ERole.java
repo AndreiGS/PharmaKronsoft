@@ -1,7 +1,7 @@
 package com.kronsoft.pharma.auth.role;
 
 import com.kronsoft.pharma.auth.role.constants.RoleConstants;
-import com.kronsoft.pharma.auth.role.exeption.NotRoleException;
+import com.kronsoft.pharma.auth.exception.InvalidRoleException;
 
 public enum ERole {
     ROLE_USER(RoleConstants.ROLE_USER),
@@ -28,6 +28,6 @@ public enum ERole {
             case RoleConstants.ROLE_MODERATOR: return ERole.ROLE_MODERATOR;
             case RoleConstants.ROLE_ADMIN: return ERole.ROLE_ADMIN;
         }
-        throw new NotRoleException();
+        throw new InvalidRoleException();
     }
 }
