@@ -16,6 +16,7 @@ public class UsernamePasswordAuthProvider implements AuthenticationProvider {
 
     /**
      * Authenticates the user whose username and password are specified in the authentication param
+     *
      * @param authentication the authentication request object.
      * @return current authentication
      * @throws AuthenticationException
@@ -28,7 +29,7 @@ public class UsernamePasswordAuthProvider implements AuthenticationProvider {
         String providedPassword = authentication.getCredentials().toString();
         String correctPassword = user.getPassword();
 
-        if(!providedPassword.equals(correctPassword)) {
+        if (!providedPassword.equals(correctPassword)) {
             throw new RuntimeException("Incorrect Credentials");
         }
 

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class RFTExpiredException extends RuntimeException {
     public static HttpStatus status = HttpStatus.FORBIDDEN;
+
     public RFTExpiredException() {
         super("RFT expired");
     }

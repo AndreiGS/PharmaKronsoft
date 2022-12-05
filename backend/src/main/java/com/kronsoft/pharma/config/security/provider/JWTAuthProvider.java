@@ -23,6 +23,7 @@ public class JWTAuthProvider implements AuthenticationProvider {
 
     /**
      * Authenticates the user whose username is specified in the authentication param
+     *
      * @param authentication the authentication request object.
      * @return current authentication
      * @throws AuthenticationException

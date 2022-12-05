@@ -33,9 +33,9 @@ public class WebSecurityConfig {
     private final RefreshTokenFilter refreshTokenFilter;
     private final JWTFilter jwtFilter;
     private final MyUserDetailsService myUserDetailsService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTAuthProvider jwtAuthProvider;
     private final UsernamePasswordAuthProvider usernamePasswordAuthProvider;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, MyUserDetailsService myUserDetailsService, JWTAuthProvider jwtAuthProvider, UsernamePasswordAuthProvider usernamePasswordAuthProvider) {
@@ -48,7 +48,8 @@ public class WebSecurityConfig {
 
     /**
      * Sets the endpoints being reached conditions based on authentication filters and authorization status of endpoints (needs authenticated or permits all requests)
-     * @param http security provided by spring
+     *
+     * @param http        security provided by spring
      * @param authManager authentication manager provided by spring
      * @return the security chain
      * @throws Exception
@@ -56,26 +57,29 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
         http
-            .cors()
-            .and()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests().antMatchers("/**/login").permitAll()
-            .and()
-            .authorizeRequests().antMatchers("/**/register").permitAll()
-            .and()
-            .authorizeRequests().antMatchers("/**").authenticated()
-            .and()
-            .httpBasic().disable()
-            .addFilterAfter(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            .authenticationManager(authManager);
+                .cors()
+                .and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests().antMatchers("/**/login").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/**/register").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/**/is_username_unique").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/**").authenticated()
+                .and()
+                .httpBasic().disable()
+                .addFilterAfter(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationManager(authManager);
         return http.build();
     }
 
     /**
      * Class used by the spring context to save the current authenticated user (the user whom request accessed the endpoint)
+     *
      * @return custom user implementation
      */
     @Bean
@@ -94,6 +98,7 @@ public class WebSecurityConfig {
     /**
      * Sets the authentication details used in the configuration (password encoder, authentication providers and the UserDetailsService whose job is to load the current user)
      * Authentication providers are custom providers and implements the 'supports' method to check whether their authentication method has been called
+     *
      * @param http security provided by spring
      * @return the AuthencationManager used in the filter chain and responsible for authentication of the user (via authentication providers)
      * @throws Exception
@@ -112,6 +117,7 @@ public class WebSecurityConfig {
 
     /**
      * Method that sets the cross origin configuration settings
+     *
      * @return cors configuration
      */
     @Bean

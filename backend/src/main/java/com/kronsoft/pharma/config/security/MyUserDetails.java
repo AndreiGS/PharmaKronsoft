@@ -2,7 +2,6 @@ package com.kronsoft.pharma.config.security;
 
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.user.AppUser;
-import org.springframework.data.annotation.Persistent;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,8 +27,8 @@ public class MyUserDetails implements UserDetails {
                 .collect(Collectors.toList());
 
         return new MyUserDetails(
-            user,
-            authorities
+                user,
+                authorities
         );
     }
 
@@ -42,8 +41,13 @@ public class MyUserDetails implements UserDetails {
         return user;
     }
 
-    public AuthToken getActiveAuthToken() { return activeAuthToken; }
-    public void setActiveAuthToken(AuthToken authToken) { activeAuthToken = authToken; }
+    public AuthToken getActiveAuthToken() {
+        return activeAuthToken;
+    }
+
+    public void setActiveAuthToken(AuthToken authToken) {
+        activeAuthToken = authToken;
+    }
 
     @Override
     public String getUsername() {

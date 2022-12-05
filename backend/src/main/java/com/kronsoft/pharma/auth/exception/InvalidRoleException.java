@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class InvalidRoleException extends RuntimeException {
     public static HttpStatus status = HttpStatus.BAD_REQUEST;
+
     public InvalidRoleException() {
         super("Role does not exist");
     }

@@ -10,6 +10,7 @@ import java.util.Collection;
 
 /**
  * Custom AuthenticationToken used to find the authentication provider that has to check the authority before letting the user access the request endpoint
+ *
  * @see UsernamePasswordAuthenticationToken
  */
 public class JWTAuthenticationToken extends AbstractAuthenticationToken {

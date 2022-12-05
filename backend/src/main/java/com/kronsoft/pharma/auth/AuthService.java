@@ -1,21 +1,22 @@
 package com.kronsoft.pharma.auth;
 
+import com.kronsoft.pharma.auth.dto.LoginDto;
 import com.kronsoft.pharma.auth.dto.RegisterDto;
+import com.kronsoft.pharma.auth.exception.InvalidRoleException;
 import com.kronsoft.pharma.auth.role.ERole;
-import com.kronsoft.pharma.user.dto.UserResponseDto;
-import com.kronsoft.pharma.user.mapper.UserMapper;
 import com.kronsoft.pharma.auth.role.Role;
 import com.kronsoft.pharma.auth.role.RoleRepository;
-import com.kronsoft.pharma.auth.exception.InvalidRoleException;
+import com.kronsoft.pharma.auth.role.constants.RoleConstants;
 import com.kronsoft.pharma.user.AppUser;
 import com.kronsoft.pharma.user.UserRepository;
+import com.kronsoft.pharma.user.dto.UserResponseDto;
+import com.kronsoft.pharma.user.mapper.UserMapper;
 import com.kronsoft.pharma.util.AuthenticationUtil;
 import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.kronsoft.pharma.auth.role.constants.RoleConstants;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,13 +39,19 @@ public class AuthService {
     }
 
     public ResponseEntityWrapper<UserResponseDto> register(RegisterDto registerDto) {
-        AppUser user = userMapper.registerToUser(registerDto);
+        AppUser user = userMapper.dtoToUser(registerDto);
         user.setRoles(getRoles(registerDto));
         user.setPassword(encoder.encode(registerDto.getPassword()));
         AppUser newUser = userRepository.save(user);
         authenticationUtil.authenticate(newUser);
 
         return new ResponseEntityWrapper<>(userMapper.userToUserResponseDto(newUser), HttpStatus.CREATED);
+    }
+
+    public ResponseEntityWrapper<?> login(LoginDto loginDto) {
+        AppUser tryingToLog = userMapper.dtoToUser(loginDto);
+        authenticationUtil.authenticate(tryingToLog);
+        return new ResponseEntityWrapper<>(HttpStatus.OK);
     }
 
     private Set<Role> getRoles(RegisterDto registerDto) {

@@ -1,7 +1,10 @@
 package com.kronsoft.pharma.config.security.util;
 
 import com.kronsoft.pharma.config.security.MyUserDetails;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
@@ -54,19 +57,19 @@ public class TokenUtil {
 
     public String JWT_generate(String username) {
         return Jwts.builder()
-                    .setSubject(username)
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                    .signWith(JWT_SigningKey)
-                    .compact();
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(JWT_SigningKey)
+                .compact();
     }
 
     public String RFT_generate() {
         return Jwts.builder()
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date((new Date()).getTime() + rftExpirationMs))
-                    .signWith(RFT_SigningKey)
-                    .compact();
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + rftExpirationMs))
+                .signWith(RFT_SigningKey)
+                .compact();
     }
 
 
@@ -75,14 +78,14 @@ public class TokenUtil {
      * @return username extracted from the JWT token used
      */
     public String getUsername(String token) {
-        if(token.startsWith("Bearer")) {
+        if (token.startsWith("Bearer")) {
             token = token.substring(7);
         }
         return Jwts.parserBuilder().setSigningKey(JWT_SigningKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     /**
-     * @param key the signing key used to encrypt the token
+     * @param key   the signing key used to encrypt the token
      * @param token the token that needs validation
      * @return the validity state of the token
      */
