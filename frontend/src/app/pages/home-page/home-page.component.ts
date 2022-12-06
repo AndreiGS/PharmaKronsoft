@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { PrimeNGConfig } from 'primeng/api';
 import { Article } from 'src/app/shared/models/article';
 import { ArticleService } from 'src/app/shared/services/article.service';
-import { ArticleMock } from 'src/test/mocks/article.mock';
 
 
 @UntilDestroy()
@@ -31,13 +29,13 @@ export class HomePageComponent implements OnInit {
 
 
     this.columnsDisplayed = [
-      { field: 'articleNo', header: 'article.entity.articleNo'}
-      , { field: 'shortDesignation', header: 'article.entity.shortDesignation'}
-      , { field: 'gtin', header: 'article.entity.gtin'}
-      , { field: 'himiNr', header: 'article.entity.himiNr'}
-      , { field: 'matchCode', header: 'article.entity.matchCode'}
-      , { field: 'designation', header: 'article.entity.designation'}
-      , { field: 'netPrice', header: 'article.entity.netPrice'}
+      { type: 'numeric', field: 'articleNo', header: 'article.entity.articleNo'}
+      , { type: 'text', field: 'shortDesignation', header: 'article.entity.shortDesignation'}
+      , { type: 'text', field: 'gtin', header: 'article.entity.gtin'}
+      , { type: 'text', field: 'himiNr', header: 'article.entity.himiNr'}
+      , { type: 'text', field: 'matchCode', header: 'article.entity.matchCode'}
+      , { type: 'text', field: 'designation', header: 'article.entity.designation'}
+      , { type: 'numeric', field: 'netPrice', header: 'article.entity.netPrice'}
     ];
   }
 
@@ -53,6 +51,7 @@ export class HomePageComponent implements OnInit {
     this.articleService.importArticles(formData).pipe(untilDestroyed(this)).subscribe({
       next: (result: any) => {
         console.log(result);
+        this.displayUploadDialog = false;
       },
       error: (error: any) => {
         console.log('error');

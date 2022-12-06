@@ -1,9 +1,18 @@
 package com.kronsoft.pharma.article;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="article")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Article {
 
     @Id
@@ -17,33 +26,12 @@ public class Article {
             generator = "article_sequence"
     )
     Integer id;
-    String name;
+    String articleNo;
+    String gtin;
+    String himiNr;
+    String matchCode;
+    String designation;
+    String shortDesignation;
+    Integer netPrice;
 
-    public Article() {
-    }
-
-    public Article(String name) {
-        this.name = name;
-    }
-
-    public Article(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

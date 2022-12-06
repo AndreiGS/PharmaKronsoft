@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -20,18 +21,16 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public void importJson(MultipartFile file) {
-        System.out.println("file");
-    }
-
-    public ResponseEntity<String> importArticles(MultipartFile file) {
+    public void importArticles(MultipartFile file) {
         try {
-            Reader reader = new InputStreamReader(file.getInputStream());
             ArticleListDto articleList = new ObjectMapper().readValue(file.getBytes(), ArticleListDto.class);
-            System.out.println(articleList);
+            articleRepository.saveAll(articleList.getArticles());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return ResponseEntity.ok("ok");
+    }
+
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
     }
 }

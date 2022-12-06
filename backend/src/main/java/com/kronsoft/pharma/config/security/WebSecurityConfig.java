@@ -65,7 +65,7 @@ public class WebSecurityConfig {
             .and()
             .authorizeRequests().antMatchers("/**/register").permitAll()
             .and()
-            .authorizeRequests().antMatchers("/**/import").permitAll()
+            .authorizeRequests().antMatchers("/**/article/**").permitAll()
             .and()
             .authorizeRequests().antMatchers("/**").authenticated()
             .and()
