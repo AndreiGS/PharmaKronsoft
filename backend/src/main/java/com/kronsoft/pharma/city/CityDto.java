@@ -1,30 +1,25 @@
 package com.kronsoft.pharma.city;
 
-import com.kronsoft.pharma.country.Country;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "city", uniqueConstraints = @UniqueConstraint(columnNames = {"id", "name"}))
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class City {
-    @Id
+public class CityDto {
     @NotNull
     private Integer id;
 
-    @Column(nullable = false)
+    @NotNull
+    @JsonProperty(value = "country_id")
+    private Integer countryId;
+
     @NotNull
     private String name;
-
-    @ManyToOne
-    @NotNull
-    private Country country;
 }

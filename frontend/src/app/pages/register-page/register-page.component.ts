@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { City } from 'src/app/shared/models/city';
 import { Country } from 'src/app/shared/models/country';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { LocationService } from 'src/app/shared/services/location.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CustomValidators } from 'src/app/shared/utils/validators.utils';
@@ -41,8 +42,21 @@ export class RegisterPageComponent {
       CustomValidators.MatchValidator('password', 'matchfail.password'),
     ]),
     street: new FormControl('', [Validators.required]),
-    city: new FormControl({}, [Validators.required]),
-    country: new FormControl({}, [Validators.required]),
+    city: new FormControl(
+      {
+        id: -1,
+        country_id: -1,
+        name: '',
+      },
+      [Validators.required]
+    ),
+    country: new FormControl(
+      {
+        id: -1,
+        name: '',
+      },
+      [Validators.required]
+    ),
     agreeTermsOfService: new FormControl(false, [Validators.requiredTrue]),
   });
 
@@ -51,6 +65,7 @@ export class RegisterPageComponent {
 
   constructor(
     public userService: UserService,
+    public authService: AuthService,
     public appStoreService: AppStoreService,
     public locationService: LocationService
   ) {
@@ -103,7 +118,17 @@ export class RegisterPageComponent {
   ngOnInit(): void {}
 
   onClick() {
-    console.log(this.formData);
+    this.authService.register({
+      username: this.formData.controls.username.value!,
+      password: this.formData.controls.password.value!,
+      confirmPassword: this.formData.controls.confirmPassword.value!,
+      firstName: this.formData.controls.firstName.value!,
+      lastName: this.formData.controls.lastName.value!,
+      street: this.formData.controls.street.value!,
+      city: this.formData.controls.city.value!,
+      country: this.formData.controls.country.value!,
+      acceptedTerms: this.formData.controls.agreeTermsOfService.value!,
+    });
   }
 
   public isFormDisabled() {

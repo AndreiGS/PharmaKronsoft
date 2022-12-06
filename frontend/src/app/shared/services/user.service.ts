@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Constants } from 'src/app/config/constants';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -17,10 +17,6 @@ export class UserService {
     return this.httpClient
       .post<boolean>(Constants.USER_USERNAME_EXISTS_API, username)
       .pipe(untilDestroyed(this))
-      .subscribe({
-        next: (response: boolean) => {
-          return response;
-        },
-      });
+      .pipe(map((result: boolean) => result));
   }
 }

@@ -23,7 +23,7 @@ public class UserService {
         return new ResponseEntityWrapper<>(userMapper.userToUserResponseDto(AuthenticationUtil.getUserDetails().getUser()), HttpStatus.OK);
     }
 
-    public Boolean isUsernameUnique(String username) {
-        return userRepository.findByUsername(username).isEmpty();
+    public Boolean doesUsernameExist(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 }

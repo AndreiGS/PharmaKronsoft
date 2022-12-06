@@ -1,5 +1,7 @@
 package com.kronsoft.pharma.config.security;
 
+import com.kronsoft.pharma.PharmaApplication;
+import com.kronsoft.pharma.config.security.filter.CORSFilter;
 import com.kronsoft.pharma.config.security.filter.JWTFilter;
 import com.kronsoft.pharma.config.security.filter.RefreshTokenFilter;
 import com.kronsoft.pharma.config.security.provider.JWTAuthProvider;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -32,15 +36,17 @@ import java.util.List;
 public class WebSecurityConfig {
     private final RefreshTokenFilter refreshTokenFilter;
     private final JWTFilter jwtFilter;
+    private final CORSFilter corsFilter;
     private final MyUserDetailsService myUserDetailsService;
     private final JWTAuthProvider jwtAuthProvider;
     private final UsernamePasswordAuthProvider usernamePasswordAuthProvider;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, MyUserDetailsService myUserDetailsService, JWTAuthProvider jwtAuthProvider, UsernamePasswordAuthProvider usernamePasswordAuthProvider) {
+    public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, CORSFilter corsFilter, MyUserDetailsService myUserDetailsService, JWTAuthProvider jwtAuthProvider, UsernamePasswordAuthProvider usernamePasswordAuthProvider) {
         this.refreshTokenFilter = refreshTokenFilter;
         this.jwtFilter = jwtFilter;
+        this.corsFilter = corsFilter;
         this.myUserDetailsService = myUserDetailsService;
         this.jwtAuthProvider = jwtAuthProvider;
         this.usernamePasswordAuthProvider = usernamePasswordAuthProvider;
@@ -56,9 +62,12 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
+        return PharmaApplication.HAS_AUTH ? filterChainAuthEnabled(http, authManager) : filterChainAuthDisabled(http, authManager);
+    }
+
+    private SecurityFilterChain filterChainAuthEnabled(HttpSecurity http, AuthenticationManager authManager) throws Exception {
         http
-                .cors()
-                .and()
+                .cors(Customizer.withDefaults())
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -66,13 +75,27 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests().antMatchers("/**/register").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/**/is_username_unique").permitAll()
+                .authorizeRequests().antMatchers("/**/username_exists").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/**").authenticated()
                 .and()
                 .httpBasic().disable()
                 .addFilterAfter(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, FilterSecurityInterceptor.class)
+                .authenticationManager(authManager);
+        return http.build();
+    }
+
+    private SecurityFilterChain filterChainAuthDisabled(HttpSecurity http, AuthenticationManager authManager) throws Exception {
+        http
+                .cors(Customizer.withDefaults())
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests().antMatchers("/**").permitAll()
+                .and()
+                .httpBasic().disable()
                 .authenticationManager(authManager);
         return http.build();
     }
@@ -100,7 +123,7 @@ public class WebSecurityConfig {
      * Authentication providers are custom providers and implements the 'supports' method to check whether their authentication method has been called
      *
      * @param http security provided by spring
-     * @return the AuthencationManager used in the filter chain and responsible for authentication of the user (via authentication providers)
+     * @return the AuthenticationManager used in the filter chain and responsible for authentication of the user (via authentication providers)
      * @throws Exception
      */
     @Bean
@@ -116,7 +139,7 @@ public class WebSecurityConfig {
     }
 
     /**
-     * Method that sets the cross origin configuration settings
+     * Method that sets the cross-origin configuration settings
      *
      * @return cors configuration
      */
@@ -127,7 +150,7 @@ public class WebSecurityConfig {
         List<String> frontendUrls = new ArrayList<>();
         frontendUrls.add("http://localhost:4200");
 
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(frontendUrls);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setExposedHeaders(Arrays.asList(TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
         configuration.setAllowCredentials(true);

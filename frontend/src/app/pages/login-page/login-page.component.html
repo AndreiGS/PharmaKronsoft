@@ -1,34 +1,32 @@
 <div class="page">
-    <div class="card">
-        <h1 class="form-title"> {{ 'user.login' | translate }} </h1>
+  <div class="card">
+    <h1 class="form-title">{{ "user.login" | translate }}</h1>
 
-        <form [formGroup]="formData">
-            <app-labeled-field
-                formControlName="username"
-                labelKey="user.entity.username"
-                type="text"
-                inputId="username"
-                [required]="true"
-            >
-            </app-labeled-field>
+    <form [formGroup]="formData">
+      <app-labeled-field
+        formControlName="username"
+        labelKey="user.entity.username"
+        type="text"
+        inputId="username"
+        [required]="true"
+      >
+      </app-labeled-field>
 
-            <app-labeled-field
-                formControlName="password"
-                labelKey="user.entity.password"
-                type="password"
-                inputId="password"
-                [required]="true"
-            >
-            </app-labeled-field>
-            
-            <div class="action">
-                <p-button [disabled]="formData.invalid">
-                    {{ 'user.login' | translate }}
-                </p-button>
-                <div [innerHTML]="'user.loginToRegister' | translate"> </div>
-            </div> 
-        </form>
-        
-    </div>
+      <app-labeled-field
+        formControlName="password"
+        labelKey="user.entity.password"
+        type="password"
+        inputId="password"
+        [required]="true"
+      >
+      </app-labeled-field>
 
+      <div class="action">
+        <p-button [disabled]="formData.invalid" (onClick)="onClick()">
+          {{ "user.login" | translate }}
+        </p-button>
+        <div [innerHTML]="'user.loginToRegister' | translate"></div>
+      </div>
+    </form>
+  </div>
 </div>

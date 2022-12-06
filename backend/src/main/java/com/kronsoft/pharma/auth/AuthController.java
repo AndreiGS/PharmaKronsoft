@@ -1,13 +1,12 @@
 package com.kronsoft.pharma.auth;
 
+import com.kronsoft.pharma.auth.dto.LoginDto;
 import com.kronsoft.pharma.auth.dto.RegisterDto;
 import com.kronsoft.pharma.user.dto.UserResponseDto;
 import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -21,8 +20,13 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/register")
-    private ResponseEntityWrapper<UserResponseDto> register(@Valid @RequestBody RegisterDto registerDto) {
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntityWrapper<Void> register(@Valid @RequestBody RegisterDto registerDto) {
         return authService.register(registerDto);
+    }
+
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntityWrapper<Void> login(@Valid @RequestBody LoginDto loginDto) {
+        return authService.login(loginDto);
     }
 }

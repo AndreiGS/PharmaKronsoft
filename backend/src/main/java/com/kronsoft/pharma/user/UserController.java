@@ -6,6 +6,7 @@ import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,8 @@ public class UserController {
         return userService.getUser();
     }
 
-    @GetMapping("/is_username_unique")
-    public Boolean isUsernameUnique(@Param("username") String username) { return userService.isUsernameUnique(username); }
+    @PostMapping("/username_exists")
+    public Boolean doesUsernameExist(@Param("username") String username) { return userService.doesUsernameExist(username); }
 
     @GetMapping("/admin")
     @IsAdmin

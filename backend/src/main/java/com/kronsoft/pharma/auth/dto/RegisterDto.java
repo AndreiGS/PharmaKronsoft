@@ -1,8 +1,7 @@
 package com.kronsoft.pharma.auth.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kronsoft.pharma.city.City;
-import com.kronsoft.pharma.country.Country;
+import com.kronsoft.pharma.city.CityDto;
+import com.kronsoft.pharma.country.CountryDto;
 import com.kronsoft.pharma.user.UserRepository;
 import com.kronsoft.pharma.util.validator.equal_fields.EqualFields;
 import com.kronsoft.pharma.util.validator.unique.Unique;
@@ -11,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -48,13 +48,15 @@ public class RegisterDto {
     private String street;
 
     @NotNull
-    private City city;
+    @Valid
+    private CityDto city;
 
     @NotNull
-    private Country country;
+    @Valid
+    private CountryDto country;
 
     @NotNull
-    private Boolean agreeTermsOfService;
+    private Boolean acceptedTerms;
 
     private Set<String> roles;
 }

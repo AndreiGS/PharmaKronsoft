@@ -53,13 +53,9 @@ public class AppUser {
     @NotNull
     private String street;
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     private City city;
-
-    @OneToOne
-    @NotNull
-    private Country country;
 
     @Column(nullable = false, columnDefinition = "boolean default true")
     @NotNull
