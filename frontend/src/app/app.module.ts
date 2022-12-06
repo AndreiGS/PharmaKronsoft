@@ -15,6 +15,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -78,7 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AutoCompleteModule,
     TableModule,
     DialogModule,
-    FileUploadModule
+    FileUploadModule,
+    PaginatorModule
   ],
   providers: [TranslateService, AppStoreService, UserStoreService],
   bootstrap: [AppComponent]

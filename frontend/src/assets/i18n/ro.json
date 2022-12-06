@@ -47,5 +47,8 @@
                 "password": "Parolele nu se potrivesc."
             }
         }
+    },
+    "table": {
+        "paginatorLabel": "Pagina {currentPage} din {totalPages}"
     }
 }

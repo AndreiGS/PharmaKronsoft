@@ -6,4 +6,5 @@ export class Constants {
 
     public static readonly ARTICLE_IMPORT_FILE_API: string = Constants.API + '/article/import';
     public static readonly ARTICLE_GET_ALL_API: string = Constants.API + '/article/all';
+    public static readonly ARTICLE_GET_PAGE_API: string = Constants.API + '/article/page';
 }

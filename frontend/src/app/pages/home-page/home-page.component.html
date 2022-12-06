@@ -4,7 +4,12 @@
         Import Data
     </button>
 
-    <p-table [value]="articles">
+    <p-paginator [rows]="6" [totalRecords]="loadedPage?.totalPages ?? 0"
+         (onPageChange)="onTablePageChange($event)" 
+         [showCurrentPageReport]="true" 
+         [currentPageReportTemplate]="'table.paginatorLabel' | translate">
+    </p-paginator>
+    <p-table [value]="loadedPage?.content ?? []" [lazy]="true" (onLazyLoad)="customSort($event)" [customSort]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th *ngFor="let col of columnsDisplayed" [pSortableColumn]="col.field">

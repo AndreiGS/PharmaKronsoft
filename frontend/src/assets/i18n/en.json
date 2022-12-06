@@ -46,5 +46,8 @@
                 "password": "Passwords do not match."
             }
         }
+    },
+    "table": {
+        "paginatorLabel": "Page {currentPage} of {totalPages}"
     }
 }

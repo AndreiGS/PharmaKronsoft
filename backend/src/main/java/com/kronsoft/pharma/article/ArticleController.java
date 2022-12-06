@@ -1,5 +1,6 @@
 package com.kronsoft.pharma.article;
 
+import com.kronsoft.pharma.util.PageOf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,14 @@ public class ArticleController {
     @GetMapping(value="/all")
     public List<Article> getAllArticles() {
         return articleService.getAllArticles();
+    }
+
+    @GetMapping(value="/page")
+    public PageOf<Article> getPageOfArticles(@RequestParam(value="page") int pageNumber
+                                            , @RequestParam(value="items") int itemsPerPage
+                                            , @RequestParam(value="sortBy") String sortBy
+                                            , @RequestParam(value="order") String order) {
+        return articleService.getPageOfItems(pageNumber, itemsPerPage, sortBy, order);
     }
 
 }
