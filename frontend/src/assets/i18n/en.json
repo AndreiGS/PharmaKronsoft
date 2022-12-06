@@ -21,6 +21,17 @@
             "city": "City"
         }
     },
+    "article": {
+        "entity": {
+            "articleNo": "Article number",
+            "gtin": "GTIN",
+            "himiNr": "himiNr ??",
+            "matchCode": "Match code",
+            "designation": "Name",
+            "shortDesignation": "Short name",
+            "netPrice": "Net price"
+        }
+    },
     "errors": {
         "field": {
             "required": "This field is required.",

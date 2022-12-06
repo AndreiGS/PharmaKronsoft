@@ -65,6 +65,8 @@ public class WebSecurityConfig {
             .and()
             .authorizeRequests().antMatchers("/**/register").permitAll()
             .and()
+            .authorizeRequests().antMatchers("/**/import").permitAll()
+            .and()
             .authorizeRequests().antMatchers("/**").authenticated()
             .and()
             .httpBasic().disable()
@@ -121,7 +123,7 @@ public class WebSecurityConfig {
         List<String> frontendUrls = new ArrayList<>();
         frontendUrls.add("http://localhost:4200");
 
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(frontendUrls);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setExposedHeaders(Arrays.asList(TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
         configuration.setAllowCredentials(true);

@@ -43,8 +43,8 @@ export class AuthService {
 
   
   public isLogged(): Observable<boolean> | boolean {
-    if(this.jwtAccessToken == null || this.refreshToken == null)
-      return false;
+/*    if(this.jwtAccessToken == null || this.refreshToken == null)
+      return false;*/
     // if(JWTToken.isExpired(this.jwtAccessToken)) {
     //   this.refreshTokens();
     // }

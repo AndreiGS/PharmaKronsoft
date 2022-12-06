@@ -4,6 +4,7 @@ import com.kronsoft.pharma.config.security.util.IsAdmin;
 import com.kronsoft.pharma.user.dto.UserResponseDto;
 import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

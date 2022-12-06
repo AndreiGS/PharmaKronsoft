@@ -12,6 +12,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { FileUploadModule } from 'primeng/fileupload';
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -70,7 +75,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ButtonModule,
     InputTextModule,
     CheckboxModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    TableModule,
+    DialogModule,
+    FileUploadModule
   ],
   providers: [TranslateService, AppStoreService, UserStoreService],
   bootstrap: [AppComponent]

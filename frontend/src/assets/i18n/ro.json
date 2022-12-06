@@ -21,6 +21,17 @@
             "city": "Oras"
         }
     },
+    "article": {
+        "entity": {
+            "articleNo": "Numar articol",
+            "gtin": "GTIN",
+            "himiNr": "himiNr ??",
+            "matchCode": "Match code",
+            "designation": "Nume",
+            "shortDesignation": "Nume scurt?",
+            "netPrice": "Pret net"
+        }
+    },
     "errors": {
         "field": {
             "required": "Acest câmp este obligatoriu.",
