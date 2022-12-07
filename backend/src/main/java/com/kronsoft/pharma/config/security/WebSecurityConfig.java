@@ -1,7 +1,6 @@
 package com.kronsoft.pharma.config.security;
 
 import com.kronsoft.pharma.PharmaApplication;
-import com.kronsoft.pharma.config.security.filter.CORSFilter;
 import com.kronsoft.pharma.config.security.filter.JWTFilter;
 import com.kronsoft.pharma.config.security.filter.RefreshTokenFilter;
 import com.kronsoft.pharma.config.security.provider.JWTAuthProvider;
@@ -19,8 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,20 +35,19 @@ import java.util.List;
 public class WebSecurityConfig {
     private final RefreshTokenFilter refreshTokenFilter;
     private final JWTFilter jwtFilter;
-    private final CORSFilter corsFilter;
     private final MyUserDetailsService myUserDetailsService;
     private final JWTAuthProvider jwtAuthProvider;
     private final UsernamePasswordAuthProvider usernamePasswordAuthProvider;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, CORSFilter corsFilter, MyUserDetailsService myUserDetailsService, JWTAuthProvider jwtAuthProvider, UsernamePasswordAuthProvider usernamePasswordAuthProvider) {
+    public WebSecurityConfig(RefreshTokenFilter refreshTokenFilter, JWTFilter jwtFilter, MyUserDetailsService myUserDetailsService, JWTAuthProvider jwtAuthProvider, UsernamePasswordAuthProvider usernamePasswordAuthProvider, PasswordEncoder passwordEncoder) {
         this.refreshTokenFilter = refreshTokenFilter;
         this.jwtFilter = jwtFilter;
-        this.corsFilter = corsFilter;
         this.myUserDetailsService = myUserDetailsService;
         this.jwtAuthProvider = jwtAuthProvider;
         this.usernamePasswordAuthProvider = usernamePasswordAuthProvider;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -82,7 +80,6 @@ public class WebSecurityConfig {
                 .httpBasic().disable()
                 .addFilterAfter(refreshTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(corsFilter, FilterSecurityInterceptor.class)
                 .authenticationManager(authManager);
         return http.build();
     }
@@ -95,8 +92,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests().antMatchers("/**").permitAll()
                 .and()
-                .httpBasic().disable()
-                .authenticationManager(authManager);
+                .httpBasic().disable();
         return http.build();
     }
 
@@ -108,14 +104,6 @@ public class WebSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return myUserDetailsService;
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        if (bCryptPasswordEncoder == null) {
-            bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        }
-        return bCryptPasswordEncoder;
     }
 
     /**
@@ -131,7 +119,7 @@ public class WebSecurityConfig {
         return http
                 .getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(myUserDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder())
+                .passwordEncoder(passwordEncoder)
                 .and()
                 .authenticationProvider(jwtAuthProvider)
                 .authenticationProvider(usernamePasswordAuthProvider)
@@ -153,6 +141,7 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(frontendUrls);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setExposedHeaders(Arrays.asList(TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
+        configuration.setAllowedHeaders(Arrays.asList("Origin", "X-Requested-With", "Accept", "Content-Type", TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

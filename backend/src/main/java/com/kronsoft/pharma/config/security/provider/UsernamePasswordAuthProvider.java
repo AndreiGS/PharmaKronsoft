@@ -7,12 +7,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsernamePasswordAuthProvider implements AuthenticationProvider {
+    private final MyUserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    public UsernamePasswordAuthProvider(MyUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     /**
      * Authenticates the user whose username and password are specified in the authentication param
@@ -29,7 +36,7 @@ public class UsernamePasswordAuthProvider implements AuthenticationProvider {
         String providedPassword = authentication.getCredentials().toString();
         String correctPassword = user.getPassword();
 
-        if (!providedPassword.equals(correctPassword)) {
+        if (!this.passwordEncoder.matches(providedPassword, correctPassword)) {
             throw new RuntimeException("Incorrect Credentials");
         }
 

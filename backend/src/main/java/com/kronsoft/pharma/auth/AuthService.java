@@ -15,8 +15,6 @@ import com.kronsoft.pharma.country.CountryDto;
 import com.kronsoft.pharma.country.CountryRepository;
 import com.kronsoft.pharma.user.AppUser;
 import com.kronsoft.pharma.user.UserRepository;
-import com.kronsoft.pharma.user.dto.UserResponseDto;
-import com.kronsoft.pharma.user.mapper.UserMapper;
 import com.kronsoft.pharma.util.AuthenticationUtil;
 import com.kronsoft.pharma.util.BaseMapper;
 import com.kronsoft.pharma.util.ResponseEntityWrapper;
@@ -35,37 +33,37 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
-    private final UserMapper userMapper;
     private final BaseMapper baseMapper;
     private final PasswordEncoder encoder;
     private final AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, CountryRepository countryRepository, CityRepository cityRepository, UserMapper userMapper, BaseMapper baseMapper, PasswordEncoder encoder, AuthenticationUtil authenticationUtil) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, CountryRepository countryRepository, CityRepository cityRepository, BaseMapper baseMapper, PasswordEncoder encoder, AuthenticationUtil authenticationUtil) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.countryRepository = countryRepository;
         this.cityRepository = cityRepository;
-        this.userMapper = userMapper;
         this.baseMapper = baseMapper;
         this.encoder = encoder;
         this.authenticationUtil = authenticationUtil;
     }
 
     public ResponseEntityWrapper<Void> register(RegisterDto registerDto) {
-        AppUser user = userMapper.dtoToUser(registerDto);
+        AppUser user = baseMapper.dtoToEntity(registerDto, AppUser.class);
         user.setRoles(getRoles(registerDto));
         user.setPassword(encoder.encode(registerDto.getPassword()));
         Country country = findCountry(registerDto.getCountry());
         user.setCity(findCity(registerDto.getCity(), country));
-        AppUser newUser = userRepository.save(user);
-        authenticationUtil.authenticate(newUser);
+        userRepository.save(user);
+
+        AppUser baseMappedUser = baseMapper.dtoToEntity(registerDto, AppUser.class);
+        authenticationUtil.authenticate(baseMappedUser);
 
         return new ResponseEntityWrapper<>(HttpStatus.CREATED);
     }
 
     public ResponseEntityWrapper<Void> login(LoginDto loginDto) {
-        AppUser tryingToLog = userMapper.dtoToUser(loginDto);
+        AppUser tryingToLog = baseMapper.dtoToEntity(loginDto, AppUser.class);
         authenticationUtil.authenticate(tryingToLog);
         return new ResponseEntityWrapper<>(HttpStatus.OK);
     }

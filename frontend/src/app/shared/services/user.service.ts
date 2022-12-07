@@ -15,7 +15,15 @@ export class UserService {
 
   public checkIfUsernameExists(username: string): Observable<boolean> {
     return this.httpClient
-      .post<boolean>(Constants.USER_USERNAME_EXISTS_API, username)
+      .post<boolean>(
+        Constants.USER_USERNAME_EXISTS_API,
+        {},
+        {
+          params: {
+            username: username,
+          },
+        }
+      )
       .pipe(untilDestroyed(this))
       .pipe(map((result: boolean) => result));
   }
