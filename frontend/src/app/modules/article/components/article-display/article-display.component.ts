@@ -35,13 +35,12 @@ export class ArticleDisplayComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnsDisplayed = [
-      { type: 'numeric', field: 'articleNo', header: 'article.entity.articleNo'}
-      , { type: 'text', field: 'shortDesignation', header: 'article.entity.shortDesignation'}
-      , { type: 'text', field: 'gtin', header: 'article.entity.gtin'}
-      , { type: 'text', field: 'himiNr', header: 'article.entity.himiNr'}
-      , { type: 'text', field: 'matchCode', header: 'article.entity.matchCode'}
-      , { type: 'text', field: 'designation', header: 'article.entity.designation'}
-      , { type: 'numeric', field: 'netPrice', header: 'article.entity.netPrice'}
+      { type: 'numeric', field: 'id', header: 'article.entity.id'}
+      , { type: 'text', field: 'pzn', header: 'article.entity.pzn'}
+      , { type: 'text', field: 'produktname', header: 'article.entity.produktname'}
+      , { type: 'text', field: 'kategorieName', header: 'article.entity.kategoriename'}
+      , { type: 'text', field: 'price', header: 'article.entity.price'}
+      , { type: 'text', field: 'availability', header: 'article.entity.availability'}
     ];
   }
 

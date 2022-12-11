@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { catchError, tap } from "rxjs";
 import { ArticleImportProcess, ArticleImportProcessStatus } from "src/app/shared/models/article/article-import-process";
@@ -8,6 +9,7 @@ import { ArticleStateModel, defaultArticleState } from "./article-store.model";
 import { ArticleStoreService } from "./article-store.service";
 
 
+@UntilDestroy()
 @State<ArticleStateModel>({
     name: 'article',
     defaults: defaultArticleState
@@ -40,14 +42,14 @@ export class ArticleState {
 
     @Action(FetchLoadingProcess)
     public fetchLoadingProcess(ctx : StateContext<ArticleStateModel>, action: FetchLoadingProcess) {
-        this.articleService.fetchLoadingImportProcess().pipe(
-            tap((response: ArticleImportProcess | null) => {
+        this.articleService.fetchLoadingImportProcess().pipe(untilDestroyed(this)).subscribe({
+            next: ((response: ArticleImportProcess | null) => {
                 ctx.dispatch(new FetchLoadingProcessCompleted(response));
             }),
-            catchError((error) => {
+            error: ((error) => {
                 return ctx.dispatch(new FetchLoadingProcessFailed(error));
               })
-        );
+            });
     }
     
     @Action(FetchLoadingProcessCompleted)
@@ -56,6 +58,9 @@ export class ArticleState {
             ...ctx.getState(),
             loadingImportProcess: action.loadingProcess ?? undefined
         });
+        if(action.loadingProcess)
+            this.articleStoreService.keepLoadingProcessUpdated();
+        
     }
 
     @Action(FetchLoadingProcessFailed)

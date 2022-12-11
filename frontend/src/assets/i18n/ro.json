@@ -23,13 +23,12 @@
     },
     "article": {
         "entity": {
-            "articleNo": "Numar articol",
-            "gtin": "GTIN",
-            "himiNr": "himiNr ??",
-            "matchCode": "Match code",
-            "designation": "Nume",
-            "shortDesignation": "Nume scurt?",
-            "netPrice": "Pret net"
+            "id": "ID",
+            "pzn": "PZN",
+            "produktname": "Nume",
+            "kategoriename": "Categorie",
+            "price": "Pret",
+            "availability": "Disponibilitate"
         }
     },
     "errors": {

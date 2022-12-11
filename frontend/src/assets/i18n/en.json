@@ -23,13 +23,12 @@
     },
     "article": {
         "entity": {
-            "articleNo": "Article number",
-            "gtin": "GTIN",
-            "himiNr": "himiNr ??",
-            "matchCode": "Match code",
-            "designation": "designation",
-            "shortDesignation": "short designation",
-            "netPrice": "Net price"
+            "id": "ID",
+            "pzn": "PZN",
+            "produktname": "Product name",
+            "kategoriename": "Category name",
+            "price": "Price",
+            "availability": "Availability"
         }
     },
     "errors": {
