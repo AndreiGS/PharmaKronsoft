@@ -27,7 +27,7 @@
 </p-table>
 
 <p-dialog header="import data" [(visible)]="displayUploadDialog">
-    <p-fileUpload name="myfile" [customUpload]="true" (uploadHandler)="jsonUploader($event)" accept="application/json" [fileLimit]="1">
+    <p-fileUpload name="myfile" [customUpload]="true" (uploadHandler)="jsonUploader($event)" accept=".csv" [fileLimit]="1">
 
     </p-fileUpload>
 </p-dialog>

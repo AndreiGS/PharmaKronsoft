@@ -18,7 +18,7 @@ export class FetchLoadingProcess {
 
 export class FetchLoadingProcessCompleted {
     static readonly type = '[ArticleStore] Fetching loading process completed.';
-    constructor(public loadingProcess: ArticleImportProcess) { }
+    constructor(public loadingProcess: ArticleImportProcess | null) { }
 }
 
 export class FetchLoadingProcessFailed {

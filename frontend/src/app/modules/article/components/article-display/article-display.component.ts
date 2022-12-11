@@ -53,7 +53,7 @@ export class ArticleDisplayComponent implements OnInit {
     this.displayUploadDialog = false;
     
     const formData = new FormData();
-    formData.append('json-file', event.files[0]);
+    formData.append('file', event.files[0]);
 
     this.articleService.importArticles(formData).pipe(untilDestroyed(this)).subscribe({
       next: (result: ArticleImportProcess) => {

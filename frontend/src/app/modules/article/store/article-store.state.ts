@@ -41,7 +41,7 @@ export class ArticleState {
     @Action(FetchLoadingProcess)
     public fetchLoadingProcess(ctx : StateContext<ArticleStateModel>, action: FetchLoadingProcess) {
         this.articleService.fetchLoadingImportProcess().pipe(
-            tap((response: ArticleImportProcess) => {
+            tap((response: ArticleImportProcess | null) => {
                 ctx.dispatch(new FetchLoadingProcessCompleted(response));
             }),
             catchError((error) => {
@@ -54,7 +54,7 @@ export class ArticleState {
     public fetchLoadingProcessCompleted(ctx : StateContext<ArticleStateModel>, action: FetchLoadingProcessCompleted) {
         ctx.setState({
             ...ctx.getState(),
-            loadingImportProcess: action.loadingProcess
+            loadingImportProcess: action.loadingProcess ?? undefined
         });
     }
 

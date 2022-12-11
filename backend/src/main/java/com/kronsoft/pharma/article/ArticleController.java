@@ -20,7 +20,7 @@ public class ArticleController {
     }
 
     @PostMapping(value="/import", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ImportProcess importData(@RequestPart(value="json-file") MultipartFile file) {
+    public ImportProcess importData(@RequestPart(value="file") MultipartFile file) {
         return articleService.importArticles(file);
     }
 

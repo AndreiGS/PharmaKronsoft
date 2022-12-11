@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -23,7 +24,7 @@ public class ImportProcessController {
     }
 
     @GetMapping(value = "/loading-process")
-    public List<ImportProcess> getAll() {
-        return importProcessService.getAllProcesses();
+    public Optional<ImportProcess> getLoadingProcess() {
+        return importProcessService.getLoadingProcess();
     }
 }

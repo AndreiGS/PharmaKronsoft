@@ -6,6 +6,9 @@ import com.kronsoft.pharma.importProcess.ImportProcessRepository;
 import com.kronsoft.pharma.importProcess.ImportProcessService;
 import com.kronsoft.pharma.importProcess.ProcessStatus;
 import com.kronsoft.pharma.util.PageOf;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Pageable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 @Service
@@ -32,17 +38,22 @@ public class ArticleService {
     }
 
     public ImportProcess importArticles(MultipartFile file) {
-        ImportProcess process = new ImportProcess(null, ProcessStatus.IN_PROGRESS, 0, 1000);
-        process = importProcessRepository.save(process);
-        importProcessService.asyncImportArticles(process);
-        return process;
-       /* try {
-            *//*ArticleListDto articleList = new ObjectMapper().readValue(file.getBytes(), ArticleListDto.class);
-            List<Article> savedEntities = articleRepository.saveAll(articleList.getArticles());
-            System.out.println(savedEntities);*//*
+        ImportProcess process;
+        try {
+            BufferedReader fileReader = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"));
+            CSVFormat customFormat = CSVFormat.newFormat('\t');
+            CSVParser csvParser = new CSVParser(fileReader, customFormat);
+
+            Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+
+            process = new ImportProcess(null, ProcessStatus.IN_PROGRESS, 0, (int) csvParser.getRecordNumber());
+            process = importProcessRepository.save(process);
+            importProcessService.asyncImportArticles(process, csvRecords);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
+            process = new ImportProcess(null, ProcessStatus.FAILED, 0, 0);
+            process = importProcessRepository.save(process);
+        }
+        return process;
     }
 
     public List<Article> getAllArticles() {
