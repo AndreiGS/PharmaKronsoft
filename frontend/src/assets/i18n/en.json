@@ -27,8 +27,8 @@
             "gtin": "GTIN",
             "himiNr": "himiNr ??",
             "matchCode": "Match code",
-            "designation": "Name",
-            "shortDesignation": "Short name",
+            "designation": "designation",
+            "shortDesignation": "short designation",
             "netPrice": "Net price"
         }
     },

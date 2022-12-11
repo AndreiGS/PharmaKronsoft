@@ -1,14 +1,12 @@
 package com.kronsoft.pharma.article;
 
+import com.kronsoft.pharma.importProcess.ImportProcess;
 import com.kronsoft.pharma.util.PageOf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 
 @RestController
@@ -22,8 +20,8 @@ public class ArticleController {
     }
 
     @PostMapping(value="/import", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void importData(@RequestPart(value="json-file") MultipartFile file) {
-        articleService.importArticles(file);
+    public ImportProcess importData(@RequestPart(value="json-file") MultipartFile file) {
+        return articleService.importArticles(file);
     }
 
     @GetMapping(value="/all")
@@ -38,5 +36,7 @@ public class ArticleController {
                                             , @RequestParam(value="order") String order) {
         return articleService.getPageOfItems(pageNumber, itemsPerPage, sortBy, order);
     }
+
+
 
 }

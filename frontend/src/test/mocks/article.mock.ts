@@ -1,4 +1,4 @@
-import { Article } from "src/app/shared/models/article";
+import { Article } from "src/app/shared/models/article/article";
 
 export class ArticleMock {
     public static readonly articles: Article[] = [

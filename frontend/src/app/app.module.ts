@@ -12,12 +12,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
-import { FileUploadModule } from 'primeng/fileupload';
-import { PaginatorModule } from 'primeng/paginator';
-
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,6 +28,8 @@ import { AppStoreService } from './store/app-store.service';
 import { AppState } from './store/app-store.state';
 import { UserState } from './store/user-store.state';
 import { UserStoreService } from './store/user-store.service';
+import { ArticleModule } from './modules/article/article.module';
+import { ArticleState } from './modules/article/store/article-store.state';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,7 +65,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     NgxsModule.forRoot([
       AppState,
-      UserState
+      UserState,
+      ArticleState
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
@@ -77,10 +75,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputTextModule,
     CheckboxModule,
     AutoCompleteModule,
-    TableModule,
     DialogModule,
-    FileUploadModule,
-    PaginatorModule
+
+    ArticleModule
   ],
   providers: [TranslateService, AppStoreService, UserStoreService],
   bootstrap: [AppComponent]

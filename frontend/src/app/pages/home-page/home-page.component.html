@@ -1,36 +1,3 @@
 <div class="full-page">
-
-    <button pButton (click)="openUploadDialog()">
-        Import Data
-    </button>
-
-    <p-paginator [rows]="6" [totalRecords]="loadedPage?.totalPages ?? 0"
-         (onPageChange)="onTablePageChange($event)" 
-         [showCurrentPageReport]="true" 
-         [currentPageReportTemplate]="'table.paginatorLabel' | translate">
-    </p-paginator>
-    <p-table [value]="loadedPage?.content ?? []" [lazy]="true" (onLazyLoad)="customSort($event)" [customSort]="true">
-        <ng-template pTemplate="header">
-            <tr>
-                <th *ngFor="let col of columnsDisplayed" [pSortableColumn]="col.field">
-                    {{col.header | translate}}
-                    <p-sortIcon [field]="col.field"></p-sortIcon>
-                    <p-columnFilter [type]="col.type" [field]="col.field" display="menu"></p-columnFilter>
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-article>
-            <tr>
-                <td *ngFor="let col of columnsDisplayed">
-                    {{article[col.field]}}
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-
-    <p-dialog header="import data" [(visible)]="displayUploadDialog">
-        <p-fileUpload name="myfile" [customUpload]="true" (uploadHandler)="jsonUploader($event)" accept="application/json" [fileLimit]="1">
-
-        </p-fileUpload>
-    </p-dialog>
+    <app-article-display></app-article-display>
 </div>
