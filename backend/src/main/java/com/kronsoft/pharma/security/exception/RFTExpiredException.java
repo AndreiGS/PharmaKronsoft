@@ -1,4 +1,4 @@
-package com.kronsoft.pharma.config.security.exception;
+package com.kronsoft.pharma.security.exception;
 
 import org.springframework.http.HttpStatus;
 

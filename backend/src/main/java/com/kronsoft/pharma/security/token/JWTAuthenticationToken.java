@@ -1,4 +1,4 @@
-package com.kronsoft.pharma.config.security.token;
+package com.kronsoft.pharma.security.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

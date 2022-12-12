@@ -1,4 +1,4 @@
-package com.kronsoft.pharma.config.security;
+package com.kronsoft.pharma.security;
 
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.user.AppUser;

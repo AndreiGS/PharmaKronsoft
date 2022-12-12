@@ -1,11 +1,11 @@
-package com.kronsoft.pharma.config.security;
+package com.kronsoft.pharma.security;
 
 import com.kronsoft.pharma.PharmaApplication;
-import com.kronsoft.pharma.config.security.filter.JWTFilter;
-import com.kronsoft.pharma.config.security.filter.RefreshTokenFilter;
-import com.kronsoft.pharma.config.security.provider.JWTAuthProvider;
-import com.kronsoft.pharma.config.security.provider.UsernamePasswordAuthProvider;
-import com.kronsoft.pharma.config.security.util.TokenConstants;
+import com.kronsoft.pharma.security.filter.JWTFilter;
+import com.kronsoft.pharma.security.filter.RefreshTokenFilter;
+import com.kronsoft.pharma.security.provider.JWTAuthProvider;
+import com.kronsoft.pharma.security.provider.UsernamePasswordAuthProvider;
+import com.kronsoft.pharma.security.util.TokenConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;

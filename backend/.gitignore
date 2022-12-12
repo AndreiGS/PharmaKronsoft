@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+/src/main/resources/firebase-config/pharma-1b38d-firebase-adminsdk-pmk1c-555ff4b8b8.json

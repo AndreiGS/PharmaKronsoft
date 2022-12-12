@@ -1,4 +1,4 @@
-package com.kronsoft.pharma.config.security.util;
+package com.kronsoft.pharma.security.util;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasRole('USER')")
-public @interface IsUser {
+@PreAuthorize("hasRole('ADMIN')")
+public @interface IsAdmin {
 }

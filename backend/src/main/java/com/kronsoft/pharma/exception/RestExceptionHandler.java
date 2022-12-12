@@ -1,7 +1,8 @@
 package com.kronsoft.pharma.exception;
 
 import com.kronsoft.pharma.auth.exception.InvalidRoleException;
-import com.kronsoft.pharma.config.security.exception.RFTExpiredException;
+import com.kronsoft.pharma.notifications.SubscriptionException;
+import com.kronsoft.pharma.security.exception.RFTExpiredException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -37,6 +38,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MalformedJwtException.class)
     protected ResponseEntity<Object> handleSave(MalformedJwtException ex) {
         return buildResponseEntity(new ApiError(HttpStatus.FORBIDDEN, ex.getMessage(), ex));
+    }
+
+    @ExceptionHandler(SubscriptionException.class)
+    protected ResponseEntity<Object> handleSave(SubscriptionException ex) {
+        return buildResponseEntity(new ApiError(SubscriptionException.status, ex.getMessage(), ex));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {

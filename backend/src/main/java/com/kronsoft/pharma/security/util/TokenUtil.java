@@ -1,6 +1,6 @@
-package com.kronsoft.pharma.config.security.util;
+package com.kronsoft.pharma.security.util;
 
-import com.kronsoft.pharma.config.security.MyUserDetails;
+import com.kronsoft.pharma.security.MyUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

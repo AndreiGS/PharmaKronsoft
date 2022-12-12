@@ -1,10 +1,10 @@
-package com.kronsoft.pharma.config.security.filter;
+package com.kronsoft.pharma.security.filter;
 
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
 import com.kronsoft.pharma.auth.util.PathChecker;
-import com.kronsoft.pharma.config.security.exception.RFTExpiredException;
-import com.kronsoft.pharma.config.security.util.TokenUtil;
+import com.kronsoft.pharma.security.exception.RFTExpiredException;
+import com.kronsoft.pharma.security.util.TokenUtil;
 import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

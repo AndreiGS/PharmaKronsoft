@@ -1,6 +1,6 @@
-package com.kronsoft.pharma.config.security.provider;
+package com.kronsoft.pharma.security.provider;
 
-import com.kronsoft.pharma.config.security.MyUserDetailsService;
+import com.kronsoft.pharma.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

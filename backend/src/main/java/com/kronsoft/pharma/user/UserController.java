@@ -1,10 +1,9 @@
 package com.kronsoft.pharma.user;
 
-import com.kronsoft.pharma.config.security.util.IsAdmin;
+import com.kronsoft.pharma.security.util.IsAdmin;
 import com.kronsoft.pharma.user.dto.UserResponseDto;
 import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

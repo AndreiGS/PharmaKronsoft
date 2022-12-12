@@ -1,9 +1,9 @@
-package com.kronsoft.pharma.config.security.filter;
+package com.kronsoft.pharma.security.filter;
 
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
 import com.kronsoft.pharma.auth.util.PathChecker;
-import com.kronsoft.pharma.config.security.util.TokenUtil;
+import com.kronsoft.pharma.security.util.TokenUtil;
 import com.kronsoft.pharma.util.AuthenticationUtil;
 import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;

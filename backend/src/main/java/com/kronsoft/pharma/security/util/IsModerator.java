@@ -1,4 +1,4 @@
-package com.kronsoft.pharma.config.security.util;
+package com.kronsoft.pharma.security.util;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 

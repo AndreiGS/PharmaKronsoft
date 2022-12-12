@@ -1,4 +1,4 @@
-package com.kronsoft.pharma.config.security.util;
+package com.kronsoft.pharma.security.util;
 
 public class TokenConstants {
     public static final String JWT_HEADER = "X-JWT-TOKEN";
