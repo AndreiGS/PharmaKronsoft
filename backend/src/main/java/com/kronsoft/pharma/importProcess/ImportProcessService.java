@@ -57,7 +57,7 @@ public class ImportProcessService {
                     i++;
                 }
             }
-            if(record.getRecordNumber() % 20 == 0) {
+            if(record.getRecordNumber() % 100 == 0) {
                 process.setProcessedRecords((int) record.getRecordNumber());
                 try{
                     process = importProcessRepository.save(process);

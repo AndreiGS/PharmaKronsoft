@@ -56,7 +56,6 @@ export class ArticleDisplayComponent implements OnInit {
 
     this.articleService.importArticles(formData).pipe(untilDestroyed(this)).subscribe({
       next: (result: ArticleImportProcess) => {
-        console.log('Result from article service: ');
         this.articleStoreService.setLoadingProcess(result);
         this.articleStoreService.keepLoadingProcessUpdated();
         this.getArticles();
