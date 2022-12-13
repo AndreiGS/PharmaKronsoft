@@ -19,7 +19,7 @@ class FCMService {
                                         WebpushNotification.builder()
                                                 .setTitle(notification.getTitle())
                                                 .setBody(notification.getMessage())
-                                                .setIcon("https://assets.mapquestapi.com/icon/v2/circle@2x.png")
+                                                .setImage("https://assets.mapquestapi.com/icon/v2/circle@2x.png")
                                                 .build()
                                 ).build()
                 )

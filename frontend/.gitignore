@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+/src/environments
+/src/firebase-messaging-sw.js
+
 # Node
 /node_modules
 npm-debug.log
@@ -41,3 +44,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

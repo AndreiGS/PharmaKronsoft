@@ -1,0 +1,7 @@
+<div class="container">
+  <app-notification
+    *ngFor="let message of messages"
+    [message]="message"
+    (onClick)="onClick.emit($event)"
+  ></app-notification>
+</div>

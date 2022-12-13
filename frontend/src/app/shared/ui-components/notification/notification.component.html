@@ -1,0 +1,19 @@
+<div class="container" (click)="onClick.emit(message)">
+  <div class="small-container">
+    <div class="border"></div>
+    <div class="inner-container">
+      <div class="info">
+        <img
+          width="48"
+          *ngIf="message.iconUrl != null"
+          [src]="message.iconUrl"
+        />
+        <div class="body">
+          <h3>{{message.title}}</h3>
+          <p>{{message.body}}</p>
+        </div>
+      </div>
+      <i class="pi pi-times"></i>
+    </div>
+  </div>
+</div>

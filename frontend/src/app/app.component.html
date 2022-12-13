@@ -1,1 +1,6 @@
 <ng-component></ng-component>
+
+<app-notifications
+  [messages]="messages"
+  (onClick)="deleteNotification($event)"
+></app-notifications>
