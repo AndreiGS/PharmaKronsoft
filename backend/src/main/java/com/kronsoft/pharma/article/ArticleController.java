@@ -21,8 +21,9 @@ public class ArticleController {
 
     @PostMapping(value="/import", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ImportProcessResponseDto importData(@RequestPart(value="file") MultipartFile file
+                                               , @RequestPart(value="token", required = false) String target
                                     /*, @RequestPart(value="user-id") String userId*/) {
-        return articleService.importArticles(file/*, userId*/);
+        return articleService.importArticles(file/*, userId*/, target);
     }
 
     @GetMapping(value="/all")

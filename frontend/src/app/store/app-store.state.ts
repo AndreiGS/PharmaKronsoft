@@ -4,8 +4,9 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { catchError, tap } from "rxjs";
 import { City } from "../shared/models/city";
 import { Country } from "../shared/models/country";
+import { Message } from "../shared/models/message";
 import { LocationService } from "../shared/services/location.service";
-import { FetchCityList, FetchCityListCompleted, FetchCityListFailed, FetchCountryList, FetchCountryListCompleted, FetchCountryListFailed } from "./app-store.actions";
+import { AddMessage, DeleteMessage, FetchCityList, FetchCityListCompleted, FetchCityListFailed, FetchCountryList, FetchCountryListCompleted, FetchCountryListFailed } from "./app-store.actions";
 import { AppStateModel, defaultAppState } from "./app-store.model";
 
 @State<AppStateModel>({
@@ -20,6 +21,11 @@ export class AppState {
     public static countryList(state: AppStateModel): Country[] {
         return state.countryList;
     }
+    @Selector()
+    public static messageList(state: AppStateModel): Message[] {
+        return state.messageList;
+    }
+
 
     @Action(FetchCountryList)
     public fetchCountryList(ctx : StateContext<AppStateModel>, action: FetchCountryList) {
@@ -69,5 +75,21 @@ export class AppState {
     @Action(FetchCityListFailed)
     public fetchCityListFailed(ctx: StateContext<AppStateModel>, action: FetchCityListFailed) {
         console.log(action.error);
+    }
+
+    @Action(AddMessage)
+    public addMessage(ctx: StateContext<AppStateModel>, action: AddMessage) {
+        ctx.setState({
+            ...ctx.getState(),
+            messageList: [...ctx.getState().messageList, action.message]
+        });
+    }
+
+    @Action(DeleteMessage)
+    public deleteMessage(ctx: StateContext<AppStateModel>, action: DeleteMessage) {
+        ctx.setState({
+            ...ctx.getState(),
+            messageList: ctx.getState().messageList.filter((el) => el != action.message)
+        });
     }
 }

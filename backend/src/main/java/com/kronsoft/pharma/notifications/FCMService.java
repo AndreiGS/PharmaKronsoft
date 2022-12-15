@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @Service
-class FCMService {
-    void sendNotificationToTarget(DirectNotification notification) {
+public class FCMService {
+    public void sendNotificationToTarget(DirectNotification notification) {
         var message = Message.builder()
                 // Set the configuration for our web notification
                 .setWebpushConfig(

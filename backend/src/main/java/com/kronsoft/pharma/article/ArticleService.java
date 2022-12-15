@@ -43,7 +43,7 @@ public class ArticleService {
         this.articleMapper = articleMapper;
     }
 
-    public ImportProcessResponseDto importArticles(MultipartFile file/*, String userId*/) {
+    public ImportProcessResponseDto importArticles(MultipartFile file/*, String userId*/, String target) {
 
         /*AppUser initiatorUser = userRepository.findById(userId).orElseThrow(() ->
                 new EntityNotFoundException("User with id " + userId + " not found."));*/
@@ -56,11 +56,11 @@ public class ArticleService {
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
-            process = new ImportProcess(null/*, initiatorUser*/, ProcessStatus.IN_PROGRESS, 0, (int) csvParser.getRecordNumber());
+            process = new ImportProcess(null/*, initiatorUser*/, ProcessStatus.IN_PROGRESS, 0, (int) csvParser.getRecordNumber(), target);
             process = importProcessRepository.save(process);
             importProcessService.asyncImportArticles(process, csvRecords);
         } catch (IOException e) {
-            process = new ImportProcess(null/*, initiatorUser*/, ProcessStatus.FAILED, 0, 0);
+            process = new ImportProcess(null/*, initiatorUser*/, ProcessStatus.FAILED, 0, 0, target);
             process = importProcessRepository.save(process);
         }
         return articleMapper.mapProcessToDto(process);
