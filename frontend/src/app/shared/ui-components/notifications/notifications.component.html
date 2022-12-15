@@ -1,7 +1,7 @@
 <div class="container">
   <app-notification
-    *ngFor="let message of messages"
+    *ngFor="let message of (messages | async) ?? []"
     [message]="message"
-    (onClick)="onClick.emit($event)"
+    (onClick)="deleteMessage($event)"
   ></app-notification>
 </div>

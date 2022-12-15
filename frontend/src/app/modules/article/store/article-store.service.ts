@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
 import { ContextMenuRow } from "primeng/table";
 import { ArticleImportProcess, ArticleImportProcessStatus } from "src/app/shared/models/article/article-import-process";
+import { AppStoreService } from "src/app/store/app-store.service";
 import { ArticleService } from "../services/article.service";
 import { SetLoadingProcess, UnsetLoadingProcess, FetchLoadingProcess, KeepLoadingProcessUpdated } from "./article-store.actions";
 import { ArticleStateModel } from "./article-store.model";
@@ -10,7 +11,8 @@ import { ArticleState } from "./article-store.state";
 @Injectable()
 export class ArticleStoreService {
     constructor(private store : Store
-                , private articleService: ArticleService) { }
+                , private articleService: ArticleService
+                , private appStoreService: AppStoreService) { }
 
     public get currentArticleStoreSnapshot(): ArticleStateModel {
         return this.store.selectSnapshot(ArticleState);

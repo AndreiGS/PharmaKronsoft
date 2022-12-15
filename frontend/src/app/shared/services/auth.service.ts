@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Constants } from 'src/app/config/constants';
+import { User } from '../models/user';
 import { UserRegisterDto } from '../models/user-dtos';
 import { UserLoginDTO as UserLoginDto } from '../models/user-dtos';
 

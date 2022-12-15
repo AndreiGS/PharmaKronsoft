@@ -30,7 +30,7 @@ import { ArticleStoreService } from './store/article-store.service';
     PaginatorModule,
     TableModule,
     DialogModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
   ],
   exports: [
     ArticleDisplayComponent,
