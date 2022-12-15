@@ -8,8 +8,14 @@ import java.util.List;
 
 @Component
 public class PathChecker {
+    public static List<String> permitPaths = List.of(
+        "/auth/login", "/auth/register",
+        "/swagger.html", "/article",
+        "/user/username_exists",
+        "/fcm/notification", "fcm/topic/**"
+    );
+
     public boolean isPermitAllPath(HttpServletRequest request) {
-        List<String> permitPaths = List.of("/login", "/register", "/swagger.html", "/article", "/username_exists");
         if (!PharmaApplication.HAS_AUTH) {
             return true;
         }
