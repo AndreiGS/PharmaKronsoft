@@ -6,13 +6,28 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { AuthGuard, NegateAuthGuard } from './shared/guards/auth-guard';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent, pathMatch: 'prefix', canActivate: [AuthGuard] }
-  , { path: 'login', component: LoginPageComponent, pathMatch: 'prefix', canActivate: [NegateAuthGuard] }
-  , { path: 'register', component: RegisterPageComponent, pathMatch: 'prefix', canActivate: [NegateAuthGuard] }
+  {
+    path: '',
+    component: HomePageComponent,
+    pathMatch: 'prefix',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+    pathMatch: 'prefix',
+    canActivate: [NegateAuthGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterPageComponent,
+    pathMatch: 'prefix',
+    canActivate: [NegateAuthGuard],
+  },
 ];
 
-@NgModule({ 
+@NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

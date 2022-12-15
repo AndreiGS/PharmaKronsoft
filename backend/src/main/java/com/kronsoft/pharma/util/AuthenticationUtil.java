@@ -1,9 +1,7 @@
 package com.kronsoft.pharma.util;
 
-import com.kronsoft.pharma.config.security.MyUserDetails;
-import com.kronsoft.pharma.config.security.MyUserDetailsService;
-import com.kronsoft.pharma.config.security.token.JWTAuthenticationToken;
-import com.kronsoft.pharma.config.security.util.TokenUtil;
+import com.kronsoft.pharma.security.MyUserDetails;
+import com.kronsoft.pharma.security.token.JWTAuthenticationToken;
 import com.kronsoft.pharma.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

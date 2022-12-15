@@ -3,9 +3,9 @@ package com.kronsoft.pharma.util;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
-import com.kronsoft.pharma.config.security.MyUserDetails;
-import com.kronsoft.pharma.config.security.util.TokenConstants;
-import com.kronsoft.pharma.config.security.util.TokenUtil;
+import com.kronsoft.pharma.security.MyUserDetails;
+import com.kronsoft.pharma.security.util.TokenConstants;
+import com.kronsoft.pharma.security.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 /**
  * Class to use whenever the user has to get another pair of JWT and RefreshToken
  * Automatization of token creation
+ *
  * @param <T> the type of the response body
  */
 @Component
@@ -42,6 +43,10 @@ public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
         this(build(body, status));
     }
 
+    public ResponseEntityWrapper(HttpStatus status) {
+        this(build(null, status));
+    }
+
     public ResponseEntityWrapper(T body, MultiValueMap<String, String> headers, HttpStatus status) {
         this(build(body, headers, status));
     }
@@ -52,9 +57,10 @@ public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
 
     /**
      * Used to build the response for the specific request
-     * @param body template parameter used as response body
+     *
+     * @param body    template parameter used as response body
      * @param headers map of headers to send as response
-     * @param status status of current request
+     * @param status  status of current request
      * @return response entity for current request with the new tokens inserted into the map already provided
      */
     private static <T> ResponseEntity<T> build(T body, MultiValueMap<String, String> headers, HttpStatus status) {
@@ -68,7 +74,7 @@ public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
     }
 
     /**
-     * @param body template parameter used as response body
+     * @param body   template parameter used as response body
      * @param status status of current request
      * @return response entity for current request with the new tokens inserted into an empty MultiValueMap used for headers
      */
@@ -79,6 +85,7 @@ public class ResponseEntityWrapper<T> extends ResponseEntity<T> {
 
     /**
      * This method is responsible for recreating the authentication tokens and deleting the used ones
+     *
      * @return new user authentication token
      */
     private static AuthToken init() {

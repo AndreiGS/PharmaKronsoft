@@ -1,50 +1,71 @@
 package com.kronsoft.pharma.auth;
 
+import com.kronsoft.pharma.auth.dto.LoginDto;
 import com.kronsoft.pharma.auth.dto.RegisterDto;
+import com.kronsoft.pharma.auth.exception.InvalidRoleException;
 import com.kronsoft.pharma.auth.role.ERole;
-import com.kronsoft.pharma.user.dto.UserResponseDto;
-import com.kronsoft.pharma.user.mapper.UserMapper;
 import com.kronsoft.pharma.auth.role.Role;
 import com.kronsoft.pharma.auth.role.RoleRepository;
-import com.kronsoft.pharma.auth.exception.InvalidRoleException;
+import com.kronsoft.pharma.auth.role.constants.RoleConstants;
+import com.kronsoft.pharma.city.City;
+import com.kronsoft.pharma.city.CityDto;
+import com.kronsoft.pharma.city.CityRepository;
+import com.kronsoft.pharma.country.Country;
+import com.kronsoft.pharma.country.CountryDto;
+import com.kronsoft.pharma.country.CountryRepository;
 import com.kronsoft.pharma.user.AppUser;
 import com.kronsoft.pharma.user.UserRepository;
 import com.kronsoft.pharma.util.AuthenticationUtil;
+import com.kronsoft.pharma.util.BaseMapper;
 import com.kronsoft.pharma.util.ResponseEntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.kronsoft.pharma.auth.role.constants.RoleConstants;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserMapper userMapper;
+    private final CountryRepository countryRepository;
+    private final CityRepository cityRepository;
+    private final BaseMapper baseMapper;
     private final PasswordEncoder encoder;
     private final AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, PasswordEncoder encoder, AuthenticationUtil authenticationUtil) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, CountryRepository countryRepository, CityRepository cityRepository, BaseMapper baseMapper, PasswordEncoder encoder, AuthenticationUtil authenticationUtil) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.userMapper = userMapper;
+        this.countryRepository = countryRepository;
+        this.cityRepository = cityRepository;
+        this.baseMapper = baseMapper;
         this.encoder = encoder;
         this.authenticationUtil = authenticationUtil;
     }
 
-    public ResponseEntityWrapper<UserResponseDto> register(RegisterDto registerDto) {
-        AppUser user = userMapper.registerToUser(registerDto);
+    public ResponseEntityWrapper<Void> register(RegisterDto registerDto) {
+        AppUser user = baseMapper.dtoToEntity(registerDto, AppUser.class);
         user.setRoles(getRoles(registerDto));
         user.setPassword(encoder.encode(registerDto.getPassword()));
-        AppUser newUser = userRepository.save(user);
-        authenticationUtil.authenticate(newUser);
+        Country country = findCountry(registerDto.getCountry());
+        user.setCity(findCity(registerDto.getCity(), country));
+        userRepository.save(user);
 
-        return new ResponseEntityWrapper<>(userMapper.userToUserResponseDto(newUser), HttpStatus.CREATED);
+        AppUser baseMappedUser = baseMapper.dtoToEntity(registerDto, AppUser.class);
+        authenticationUtil.authenticate(baseMappedUser);
+
+        return new ResponseEntityWrapper<>(HttpStatus.CREATED);
+    }
+
+    public ResponseEntityWrapper<Void> login(LoginDto loginDto) {
+        AppUser tryingToLog = baseMapper.dtoToEntity(loginDto, AppUser.class);
+        authenticationUtil.authenticate(tryingToLog);
+        return new ResponseEntityWrapper<>(HttpStatus.OK);
     }
 
     private Set<Role> getRoles(RegisterDto registerDto) {
@@ -78,5 +99,21 @@ public class AuthService {
         }
 
         return roles;
+    }
+
+    private Country findCountry(CountryDto countryDto) {
+        return countryRepository.findById(countryDto.getId())
+                                .orElseGet(() -> countryRepository.save(baseMapper.dtoToEntity(countryDto, Country.class)));
+    }
+
+    private City findCity(CityDto cityDto, Country country) {
+        Optional<City> cityOptional = cityRepository.findById(cityDto.getId());
+
+        if(cityOptional.isPresent()) {
+            return cityOptional.get();
+        }
+        City city = baseMapper.dtoToEntity(cityDto, City.class);
+        city.setCountry(country);
+        return cityRepository.save(city);
     }
 }
