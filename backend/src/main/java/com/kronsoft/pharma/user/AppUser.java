@@ -75,12 +75,10 @@ public class AppUser {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
-    @NotNull
     private Set<AuthToken> tokens = new HashSet<>();
 
     @CreatedDate
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    @NotNull
     private LocalDateTime createdAt;
 }

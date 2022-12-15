@@ -1,6 +1,7 @@
 package com.kronsoft.pharma.security;
 
 import com.kronsoft.pharma.PharmaApplication;
+import com.kronsoft.pharma.security.util.PathChecker;
 import com.kronsoft.pharma.security.filter.JWTFilter;
 import com.kronsoft.pharma.security.filter.RefreshTokenFilter;
 import com.kronsoft.pharma.security.provider.JWTAuthProvider;
@@ -68,11 +69,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/**/login").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/**/register").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/**/username_exists").permitAll()
+                .authorizeRequests().antMatchers(PathChecker.permitPaths.toArray(new String[0])).permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/**").authenticated()
                 .and()
@@ -139,11 +136,13 @@ public class WebSecurityConfig {
 
         configuration.setAllowedOrigins(frontendUrls);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setExposedHeaders(Arrays.asList(TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
         configuration.setAllowedHeaders(Arrays.asList("Origin", "X-Requested-With", "Accept", "Content-Type", TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
+        configuration.setExposedHeaders(Arrays.asList(TokenConstants.JWT_HEADER, TokenConstants.REFRESH_HEADER));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
+
+

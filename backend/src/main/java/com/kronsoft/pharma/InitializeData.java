@@ -20,7 +20,7 @@ public class InitializeData {
 
     @EventListener(ApplicationReadyEvent.class)
     public void loadData() {
-        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(false, false, "UTF-8", new ClassPathResource("roles.sql"));
+        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(true, false, "UTF-8", new ClassPathResource("roles.sql"));
         resourceDatabasePopulator.execute(dataSource);
     }
 }

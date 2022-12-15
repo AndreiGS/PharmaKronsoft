@@ -25,7 +25,7 @@ public class RegisterDto {
     @NotNull
     @Size(min = 3, message = "Username should be at least 3 characters long")
     @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]*$")
-    @Unique(field = "username", repository = UserRepository.class, message = "Username must be unique")
+    @Unique(field = "username", fieldClass = String.class, repository = UserRepository.class, message = "Username must be unique")
     private String username;
 
     @NotNull

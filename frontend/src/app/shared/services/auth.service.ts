@@ -64,7 +64,22 @@ export class AuthService {
   public logout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+
+    this.httpClient
+      .post<void>(
+        Constants.AUTH_LOGOUT_API,
+        {},
+        {
+          headers: {
+            [Constants.JWT_HEADER]: this.jwtAccessToken ?? '',
+            [Constants.REFRESH_HEADER]: this.refreshToken ?? '',
+          },
+        }
+      )
+      .subscribe();
+
     this.jwtAccessToken = this.refreshToken = null;
+    this.router.navigateByUrl('/login');
   }
 
   public isLogged(): boolean {

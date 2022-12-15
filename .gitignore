@@ -1,0 +1,4 @@
+frontend/src/manifest.json
+frontend/src/environments/environment.ts
+frontend/firebase.json
+backend/src/main/resources/application.properties

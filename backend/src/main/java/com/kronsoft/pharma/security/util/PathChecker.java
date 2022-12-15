@@ -1,7 +1,8 @@
-package com.kronsoft.pharma.auth.util;
+package com.kronsoft.pharma.security.util;
 
 import com.kronsoft.pharma.PharmaApplication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -9,10 +10,10 @@ import java.util.List;
 @Component
 public class PathChecker {
     public static List<String> permitPaths = List.of(
-        "/auth/login", "/auth/register",
-        "/swagger.html", "/article",
-        "/user/username_exists",
-        "/fcm/notification", "fcm/topic/**"
+        "/**/login", "/**/register",
+        "/swagger.html", "/**/article",
+        "/**/username_exists",
+        "/**/fcm/**"
     );
 
     public boolean isPermitAllPath(HttpServletRequest request) {
@@ -20,6 +21,8 @@ public class PathChecker {
             return true;
         }
 
-        return permitPaths.stream().anyMatch((path) -> request.getRequestURI().contains(path));
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+        return permitPaths.stream().anyMatch((path) -> antPathMatcher.match(path, request.getRequestURI()));
     }
 }

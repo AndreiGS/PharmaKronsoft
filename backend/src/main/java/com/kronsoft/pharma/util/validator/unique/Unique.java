@@ -1,6 +1,5 @@
 package com.kronsoft.pharma.util.validator.unique;
 
-import com.kronsoft.pharma.util.validator.equal_fields.EqualFieldsValidator;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.validation.Constraint;
@@ -10,13 +9,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {UniqueFieldValidator.class})
 public @interface Unique {
     String message() default "Fields do not match";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
     Class<? extends JpaRepository<?, ?>> repository();
+
     String field();
+
+    Class<?> fieldClass();
 }
