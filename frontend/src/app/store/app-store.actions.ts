@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { City } from "../shared/models/city";
 import { Country } from "../shared/models/country";
+import { Message } from "../shared/models/message";
 
 export class FetchCountryList {
     static readonly type = '[AppState] Fetch CountryList';
@@ -30,4 +31,14 @@ export class FetchCityListCompleted {
 export class FetchCityListFailed {
     static readonly type = '[AppState] Fetch CityList failed.';
     constructor(public error: HttpErrorResponse) { }
+}
+
+export class AddMessage {
+    static readonly type = '[AppState] Message added.';
+    constructor(public message: Message) { }
+}
+
+export class DeleteMessage {
+    static readonly type = '[AppState] Message deleted.';
+    constructor(public message: Message) { }
 }

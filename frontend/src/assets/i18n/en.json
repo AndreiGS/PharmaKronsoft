@@ -21,6 +21,16 @@
             "city": "City"
         }
     },
+    "article": {
+        "entity": {
+            "id": "ID",
+            "pzn": "PZN",
+            "produktname": "Product name",
+            "kategoriename": "Category name",
+            "price": "Price",
+            "availability": "Availability"
+        }
+    },
     "errors": {
         "field": {
             "required": "This field is required.",
@@ -35,5 +45,8 @@
                 "password": "Passwords do not match."
             }
         }
+    },
+    "table": {
+        "paginatorLabel": "Page {currentPage} of {totalPages}"
     }
 }

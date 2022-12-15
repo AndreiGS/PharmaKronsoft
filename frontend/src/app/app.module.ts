@@ -16,6 +16,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DialogModule } from 'primeng/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +32,8 @@ import { AppStoreService } from './store/app-store.service';
 import { AppState } from './store/app-store.state';
 import { UserState } from './store/user-store.state';
 import { UserStoreService } from './store/user-store.service';
+import { ArticleModule } from './modules/article/article.module';
+import { ArticleState } from './modules/article/store/article-store.state';
 
 import { environment } from '../environments/environment';
 
@@ -73,7 +76,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
 
-    NgxsModule.forRoot([AppState, UserState]),
+    NgxsModule.forRoot([
+      AppState,
+      UserState,
+      ArticleState
+    ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
 
@@ -81,6 +88,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputTextModule,
     CheckboxModule,
     AutoCompleteModule,
+    DialogModule,
+    ArticleModule
   ],
   providers: [TranslateService, AppStoreService, UserStoreService],
   bootstrap: [AppComponent],

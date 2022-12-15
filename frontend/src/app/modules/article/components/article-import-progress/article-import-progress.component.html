@@ -1,0 +1,4 @@
+<div *ngIf="(articleImportProcess | async)" class="component-wrapper">
+    <p-progressBar [value]="computePercentage((articleImportProcess | async)!)" [showValue]="false"></p-progressBar>
+    <p>{{(articleImportProcess | async)!.processedRecords}} / {{(articleImportProcess | async)!.totalRecords}} </p>
+</div>

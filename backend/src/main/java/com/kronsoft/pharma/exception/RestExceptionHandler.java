@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -40,6 +42,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiError(HttpStatus.FORBIDDEN, ex.getMessage(), ex));
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected  ResponseEntity<String> handleEntityNotFoundExcepton(String exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+    }
     @ExceptionHandler(SubscriptionException.class)
     protected ResponseEntity<Object> handleSave(SubscriptionException ex) {
         return buildResponseEntity(new ApiError(SubscriptionException.status, ex.getMessage(), ex));

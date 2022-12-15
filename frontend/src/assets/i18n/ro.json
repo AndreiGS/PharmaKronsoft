@@ -21,6 +21,16 @@
             "city": "Oras"
         }
     },
+    "article": {
+        "entity": {
+            "id": "ID",
+            "pzn": "PZN",
+            "produktname": "Nume",
+            "kategoriename": "Categorie",
+            "price": "Pret",
+            "availability": "Disponibilitate"
+        }
+    },
     "errors": {
         "field": {
             "required": "Acest câmp este obligatoriu.",
@@ -36,5 +46,8 @@
                 "password": "Parolele nu se potrivesc."
             }
         }
+    },
+    "table": {
+        "paginatorLabel": "Pagina {currentPage} din {totalPages}"
     }
 }

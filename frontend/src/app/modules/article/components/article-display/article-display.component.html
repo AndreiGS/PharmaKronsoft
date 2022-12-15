@@ -1,0 +1,37 @@
+<button pButton (click)="openUploadDialog()" [disabled]="(articleImportProcess | async)">
+    Import Data
+</button>
+
+<p-paginator [rows]="6" [totalRecords]="loadedPage?.totalPages ?? 0"
+     (onPageChange)="onTablePageChange($event)" 
+     [showCurrentPageReport]="true" 
+     [currentPageReportTemplate]="'table.paginatorLabel' | translate">
+</p-paginator>
+<p-table [value]="loadedPage?.content ?? []" [lazy]="true" (onLazyLoad)="customSort($event)" [customSort]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of columnsDisplayed" [pSortableColumn]="col.field">
+                {{col.header | translate}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+                <p-columnFilter [type]="col.type" [field]="col.field" display="menu"></p-columnFilter>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-article>
+        <tr>
+            <td *ngFor="let col of columnsDisplayed">
+                {{article[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="import data" [(visible)]="displayUploadDialog" (onHide)="onImportDialogHide(fileUpload)">
+    <p-fileUpload #fileUpload name="myfile" [customUpload]="true" (uploadHandler)="jsonUploader($event, fileUpload)" accept=".csv" [fileLimit]="1">
+
+    </p-fileUpload>
+</p-dialog>
+
+<div *ngIf="displayProgressSpinner" class="page-overlay">
+    <p-progressSpinner strokeWidth="6"></p-progressSpinner>
+</div>

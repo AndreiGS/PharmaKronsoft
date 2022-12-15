@@ -31,7 +31,7 @@
             <app-labeled-field
                 formControlName="firstName"
                 type="text"
-                labelKey="user.entity.name"
+                labelKey="user.entity.firstName"
                 placeholder="user.entity.firstName"
                 inputId="firstname">
             </app-labeled-field>
@@ -39,6 +39,7 @@
             <app-labeled-field
                 formControlName="lastName"
                 type="text"
+                labelKey="user.entity.lastName"
                 placeholder="user.entity.lastName"
                 [keepLabelSpace]="true"
                 inputId="lastname">
@@ -61,6 +62,7 @@
                 [autocompleteSuggestions]="suggestedCities"
                 (autocompleteSelected)="this.onCityAutocompleteSelect()"
                 autocompleteSuggestionDisplayedProp="name"
+                labelKey="user.entity.city"
                 placeholder="user.entity.city"
                 inputId="city">
             </app-labeled-field>
@@ -72,6 +74,7 @@
                 [autocompleteSuggestions]="suggestedCountries"
                 (autocompleteSelected)="this.onCountryAutocompleteSelect()"
                 autocompleteSuggestionDisplayedProp="name"
+                labelKey="user.entity.country"
                 placeholder="user.entity.country"
                 inputId="country">
             </app-labeled-field>
