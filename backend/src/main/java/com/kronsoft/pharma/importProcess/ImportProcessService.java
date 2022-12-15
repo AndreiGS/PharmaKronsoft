@@ -18,8 +18,6 @@ import org.apache.commons.csv.CSVRecord;
 
 import javax.persistence.EntityNotFoundException;
 
-import static java.lang.Thread.sleep;
-
 @Service
 public class ImportProcessService {
 
@@ -49,19 +47,14 @@ public class ImportProcessService {
             try {
                 articleRepository.save(new Article(record.toList().toArray(columns)));
             } catch (Exception e) {
-                System.out.println(e.getCause());
-                int i = 1;
-                for(String col : record.toList()) {
-                    if(col.length() > 250)
-                        System.out.println(i);
-                    i++;
-                }
+                System.out.println("[E]" + e.getMessage());
             }
             if(record.getRecordNumber() % 100 == 0) {
                 process.setProcessedRecords((int) record.getRecordNumber());
                 try{
                     process = importProcessRepository.save(process);
                 } catch (Exception e) {
+                    System.out.println("[E2]" + e.getMessage());
                     process.setStatus(ProcessStatus.FAILED);
                     importProcessRepository.save(process);
                     return;

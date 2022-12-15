@@ -1,6 +1,6 @@
 package com.kronsoft.pharma.article;
 
-import com.kronsoft.pharma.importProcess.ImportProcess;
+import com.kronsoft.pharma.importProcess.dto.ImportProcessResponseDto;
 import com.kronsoft.pharma.util.PageOf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,8 +20,9 @@ public class ArticleController {
     }
 
     @PostMapping(value="/import", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ImportProcess importData(@RequestPart(value="file") MultipartFile file) {
-        return articleService.importArticles(file);
+    public ImportProcessResponseDto importData(@RequestPart(value="file") MultipartFile file
+                                    /*, @RequestPart(value="user-id") String userId*/) {
+        return articleService.importArticles(file/*, userId*/);
     }
 
     @GetMapping(value="/all")

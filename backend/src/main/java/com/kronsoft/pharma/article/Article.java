@@ -26,35 +26,35 @@ public class Article {
             generator = "article_sequence"
     )
     Integer id;
-    String PZN;
-    String Produktname;
-    String HerstellerId;
-    String KurzeBeschreibung;
+    String pzn;
+    String produktname;
+    String herstellerId;
+    String kurzeBeschreibung;
 
     @Column(length=10000)
-    String Beschreibung;
-    String QuantityUomId;
-    String ProduktFormId;
-    String CustomQuantity;
-    String ProduktnameNoSpaces;
-    String Hersteller;
+    String beschreibung;
+    String quantityUomId;
+    String produktFormId;
+    String customQuantity;
+    String produktnameNoSpaces;
+    String hersteller;
 
     @Column(length = 500)
-    String Keywords;
-    String KategorieName;
-    String KategorieId;
-    String ProduktForm;
-    String Price;
-    String Tierarzneimittel;
-    String Wirkstoffe;
-    String Kuehlkette;
-    String Rezeptpflicht;
-    String Availability;
-    String IsShopArticle;
-    String SalesCount;
-    String ReImported;
-    String IsLmivArticle;
-    String EanUpc;
+    String keywords;
+    String kategorieName;
+    String kategorieId;
+    String produktForm;
+    String price;
+    String tierarzneimittel;
+    String wirkstoffe;
+    String kuehlkette;
+    String rezeptpflicht;
+    String availability;
+    String isShopArticle;
+    String salesCount;
+    String reImported;
+    String isLmivArticle;
+    String eanUpc;
 
     public Article(String[] csvRow) { // TODO beautify
         this(Integer.valueOf(csvRow[0]), csvRow[1], csvRow[2], csvRow[3], csvRow[4], csvRow[5], csvRow[6], csvRow[7], csvRow[8], csvRow[9],

@@ -8,6 +8,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+
 
 import { ArticleImportProgressComponent } from './components/article-import-progress/article-import-progress.component';
 import { ArticleDisplayComponent } from './components/article-display/article-display.component';
@@ -27,7 +29,8 @@ import { ArticleStoreService } from './store/article-store.service';
     ProgressBarModule,
     PaginatorModule,
     TableModule,
-    DialogModule
+    DialogModule,
+    ProgressSpinnerModule
   ],
   exports: [
     ArticleDisplayComponent,

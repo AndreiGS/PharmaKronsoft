@@ -6,6 +6,7 @@ export enum ArticleImportProcessStatus {
 
 export interface ArticleImportProcess {
     processId: string;
+    username: string;
     status: ArticleImportProcessStatus;
     processedRecords: number;
     totalRecords: number;

@@ -1,10 +1,10 @@
 package com.kronsoft.pharma.importProcess;
+import com.kronsoft.pharma.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -24,7 +24,11 @@ public class ImportProcess {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private UUID processId;
-    /* user_id */
+
+    /*@OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private AppUser user;*/
+    
     private ProcessStatus status;
     private Integer processedRecords;
     private Integer totalRecords;
