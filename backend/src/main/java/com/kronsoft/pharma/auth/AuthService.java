@@ -33,16 +33,18 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
+    private final AuthTokenRepository authTokenRepository;
     private final BaseMapper baseMapper;
     private final PasswordEncoder encoder;
     private final AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, CountryRepository countryRepository, CityRepository cityRepository, BaseMapper baseMapper, PasswordEncoder encoder, AuthenticationUtil authenticationUtil) {
+    public AuthService(UserRepository userRepository, RoleRepository roleRepository, CountryRepository countryRepository, CityRepository cityRepository, AuthTokenRepository authTokenRepository, BaseMapper baseMapper, PasswordEncoder encoder, AuthenticationUtil authenticationUtil) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.countryRepository = countryRepository;
         this.cityRepository = cityRepository;
+        this.authTokenRepository = authTokenRepository;
         this.baseMapper = baseMapper;
         this.encoder = encoder;
         this.authenticationUtil = authenticationUtil;
@@ -66,6 +68,10 @@ public class AuthService {
         AppUser tryingToLog = baseMapper.dtoToEntity(loginDto, AppUser.class);
         authenticationUtil.authenticate(tryingToLog);
         return new ResponseEntityWrapper<>(HttpStatus.OK);
+    }
+
+    public void logout() {
+        authTokenRepository.delete(AuthenticationUtil.getUserDetails().getActiveAuthToken());
     }
 
     private Set<Role> getRoles(RegisterDto registerDto) {

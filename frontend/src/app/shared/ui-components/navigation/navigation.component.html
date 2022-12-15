@@ -1,0 +1,15 @@
+<div class="nav">
+  <div>
+    <h3>TodoApp</h3>
+  </div>
+  <div class="nav-buttons">
+    <button
+      *ngIf="authService.isLogged()"
+      pButton
+      type="button"
+      label="Logout"
+      class="p-button-danger rounded"
+      (click)="authService.logout()"
+    ></button>
+  </div>
+</div>

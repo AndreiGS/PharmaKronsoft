@@ -12,8 +12,9 @@ import java.util.Optional;
 
 public class UniqueFieldValidator implements ConstraintValidator<Unique, Object> {
     private final ApplicationContext applicationContext;
-    private JpaRepository<?, ?> repository;
+    private Class<? extends JpaRepository<?, ?>> repository;
     private String field;
+    private Class<?> fieldClass;
 
     @Autowired
     public UniqueFieldValidator(ApplicationContext applicationContext) {
@@ -22,8 +23,9 @@ public class UniqueFieldValidator implements ConstraintValidator<Unique, Object>
 
     @Override
     public void initialize(Unique constraintAnnotation) {
-        this.repository = this.applicationContext.getBean(constraintAnnotation.repository());
+        this.repository = constraintAnnotation.repository();
         this.field = constraintAnnotation.field();
+        this.fieldClass = constraintAnnotation.fieldClass();
     }
 
     @Override
@@ -31,8 +33,8 @@ public class UniqueFieldValidator implements ConstraintValidator<Unique, Object>
         Method method;
         try {
             field = field.substring(0, 1).toUpperCase() + field.substring(1);
-            method = repository.getClass().getMethod("findBy" + field);
-            Optional<?> output = (Optional<?>) method.invoke(value);
+            method = repository.getMethod("findBy" + field, fieldClass);
+            Optional<?> output = (Optional<?>) method.invoke(applicationContext.getBean(repository), value);
             return output.isEmpty();
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);

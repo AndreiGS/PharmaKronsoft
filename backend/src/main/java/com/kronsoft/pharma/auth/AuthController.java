@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -30,5 +31,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntityWrapper<Void> login(@Valid @RequestBody LoginDto loginDto) {
         return authService.login(loginDto);
+    }
+
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout() {
+        authService.logout();
     }
 }

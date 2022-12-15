@@ -41,6 +41,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { NotificationsComponent } from './shared/ui-components/notifications/notifications.component';
 import { NotificationComponent } from './shared/ui-components/notification/notification.component';
+import { NavigationComponent } from './shared/ui-components/navigation/navigation.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -55,6 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LabeledFieldComponent,
     NotificationsComponent,
     NotificationComponent,
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ package com.kronsoft.pharma.security.filter;
 
 import com.kronsoft.pharma.auth.AuthToken;
 import com.kronsoft.pharma.auth.AuthTokenRepository;
-import com.kronsoft.pharma.auth.util.PathChecker;
+import com.kronsoft.pharma.security.util.PathChecker;
 import com.kronsoft.pharma.security.exception.RFTExpiredException;
 import com.kronsoft.pharma.security.util.TokenUtil;
 import io.jsonwebtoken.MalformedJwtException;
@@ -35,11 +35,6 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (pathChecker.isPermitAllPath(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String rftToken = tokenUtil.getRefreshFromHeader(request);
         AuthToken authToken = authTokenRepository.findByRefreshToken(rftToken).orElseThrow(RFTExpiredException::new);
 
@@ -54,5 +49,10 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return pathChecker.isPermitAllPath(request);
     }
 }
