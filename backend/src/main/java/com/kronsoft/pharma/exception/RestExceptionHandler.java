@@ -1,7 +1,8 @@
 package com.kronsoft.pharma.exception;
 
 import com.kronsoft.pharma.auth.exception.InvalidRoleException;
-import com.kronsoft.pharma.config.security.exception.RFTExpiredException;
+import com.kronsoft.pharma.notifications.SubscriptionException;
+import com.kronsoft.pharma.security.exception.RFTExpiredException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -21,7 +22,7 @@ import javax.persistence.EntityNotFoundException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "Malformed JSON request";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
     }
@@ -44,6 +45,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     protected  ResponseEntity<String> handleEntityNotFoundExcepton(String exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+    }
+    @ExceptionHandler(SubscriptionException.class)
+    protected ResponseEntity<Object> handleSave(SubscriptionException ex) {
+        return buildResponseEntity(new ApiError(SubscriptionException.status, ex.getMessage(), ex));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {

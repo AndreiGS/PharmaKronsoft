@@ -5,7 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CheckboxModule } from 'primeng/checkbox';
@@ -31,11 +35,16 @@ import { UserStoreService } from './store/user-store.service';
 import { ArticleModule } from './modules/article/article.module';
 import { ArticleState } from './modules/article/store/article-store.state';
 
+import { environment } from '../environments/environment';
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { NotificationsComponent } from './shared/ui-components/notifications/notifications.component';
+import { NotificationComponent } from './shared/ui-components/notification/notification.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
 
 @NgModule({
   declarations: [
@@ -43,7 +52,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginPageComponent,
     RegisterPageComponent,
     HomePageComponent,
-    LabeledFieldComponent
+    LabeledFieldComponent,
+    NotificationsComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,14 +64,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireMessagingModule,
 
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [HttpClient]
-      }
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
     }),
 
     NgxsModule.forRoot([
@@ -76,10 +89,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     CheckboxModule,
     AutoCompleteModule,
     DialogModule,
-
     ArticleModule
   ],
   providers: [TranslateService, AppStoreService, UserStoreService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
