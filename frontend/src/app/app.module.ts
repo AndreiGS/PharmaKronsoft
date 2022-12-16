@@ -1,8 +1,13 @@
+import { RequestInterceptor } from './shared/interceptors/app.request-interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
@@ -42,6 +47,7 @@ import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { NotificationsComponent } from './shared/ui-components/notifications/notifications.component';
 import { NotificationComponent } from './shared/ui-components/notification/notification.component';
 import { NavigationComponent } from './shared/ui-components/navigation/navigation.component';
+import { ResponseInterceptor } from './shared/interceptors/app.response-interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -78,11 +84,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
 
-    NgxsModule.forRoot([
-      AppState,
-      UserState,
-      ArticleState
-    ]),
+    NgxsModule.forRoot([AppState, UserState, ArticleState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
 
@@ -91,9 +93,23 @@ export function HttpLoaderFactory(http: HttpClient) {
     CheckboxModule,
     AutoCompleteModule,
     DialogModule,
-    ArticleModule
+    ArticleModule,
   ],
-  providers: [TranslateService, AppStoreService, UserStoreService],
+  providers: [
+    TranslateService,
+    AppStoreService,
+    UserStoreService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
