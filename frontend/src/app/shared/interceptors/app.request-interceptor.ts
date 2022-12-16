@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
-export class AppInterceptor implements HttpInterceptor {
+export class RequestInterceptor implements HttpInterceptor {
   constructor(public authService: AuthService) {}
 
   intercept(
@@ -21,7 +21,6 @@ export class AppInterceptor implements HttpInterceptor {
     const refreshToken = this.authService.getRefreshToken;
     if (token && refreshToken) {
       req = req.clone({
-        url: req.url,
         setHeaders: {
           [Constants.JWT_HEADER]: token,
           [Constants.REFRESH_HEADER]: refreshToken,
