@@ -10,7 +10,7 @@ import lombok.Setter;
 public class DirectNotification extends AppNotification {
     private String target;
 
-    DirectNotification(String target, String title, String message) {
+    public DirectNotification(String target, String title, String message) {
         super(title, message);
         this.target = target;
     }

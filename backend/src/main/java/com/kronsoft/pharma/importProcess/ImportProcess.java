@@ -28,8 +28,9 @@ public class ImportProcess {
     /*@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser user;*/
-    
+
     private ProcessStatus status;
     private Integer processedRecords;
     private Integer totalRecords;
+    private String target;
 }

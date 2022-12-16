@@ -3,10 +3,10 @@ package com.kronsoft.pharma.importProcess;
 
 import com.kronsoft.pharma.article.Article;
 import com.kronsoft.pharma.article.ArticleRepository;
+import com.kronsoft.pharma.notifications.DirectNotification;
+import com.kronsoft.pharma.notifications.FCMService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.Cookie;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +23,13 @@ public class ImportProcessService {
 
     private final ImportProcessRepository importProcessRepository;
     private final ArticleRepository articleRepository;
+    private final FCMService fcmService;
 
     @Autowired
-    public ImportProcessService(ImportProcessRepository importProcessRepository, ArticleRepository articleRepository) {
+    public ImportProcessService(ImportProcessRepository importProcessRepository, ArticleRepository articleRepository, FCMService fcmService) {
         this.importProcessRepository = importProcessRepository;
         this.articleRepository = articleRepository;
+        this.fcmService = fcmService;
     }
 
 
@@ -63,6 +65,8 @@ public class ImportProcessService {
         }
         process.setStatus(ProcessStatus.COMPLETED);
         importProcessRepository.save(process);
+        if(process.getTarget() != null)
+            fcmService.sendNotificationToTarget(new DirectNotification(process.getTarget(), "Process completed.", "Import process completed."));
     }
 
     public List<ImportProcess> getAllProcesses() {

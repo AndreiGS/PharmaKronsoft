@@ -1,4 +1,6 @@
-frontend/src/manifest.json
-frontend/src/environments/environment.ts
-frontend/firebase.json
 backend/src/main/resources/application.properties
+frontend/firebase.json
+frontend/package-lock.json
+frontend/package.json
+frontend/src/environments/environment.ts
+frontend/src/manifest.json

@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { createSubjectOnTheInstance } from '@ngneat/until-destroy/lib/internals';
 import { TranslateService } from '@ngx-translate/core';
 import { Select } from '@ngxs/store';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, Message } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Article } from 'src/app/shared/models/article/article';
 import { ArticleImportProcess } from 'src/app/shared/models/article/article-import-process';
 import { PageOf } from 'src/app/shared/models/page-of';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { ArticleService } from '../../services/article.service';
 import { ArticleStoreService } from '../../store/article-store.service';
 import { ArticleState } from '../../store/article-store.state';
@@ -37,7 +39,9 @@ export class ArticleDisplayComponent implements OnInit {
 
   constructor(public translate : TranslateService
               , public articleService: ArticleService
-              , public articleStoreService: ArticleStoreService) { }
+              , public articleStoreService: ArticleStoreService
+              , public authService: AuthService
+              , private msg: AngularFireMessaging) { }
 
   ngOnInit(): void {
     this.columnsDisplayed = [
@@ -60,20 +64,32 @@ export class ArticleDisplayComponent implements OnInit {
     
     const formData = new FormData();
     formData.append('file', event.files[0]);
-    this.articleService.importArticles(formData).pipe(untilDestroyed(this)).subscribe({
-      next: (result: ArticleImportProcess) => {
-        this.articleStoreService.setLoadingProcess(result);
-        this.articleStoreService.keepLoadingProcessUpdated();
-        this.getArticles();
+
+    this.msg.requestToken.subscribe({
+      next: (token) => {
+        console.log(null);
+        if(token)
+          formData.append('token', token);
+        this.articleService.importArticles(formData).pipe(untilDestroyed(this)).subscribe({
+          next: (result: ArticleImportProcess) => {
+            this.articleStoreService.setLoadingProcess(result);
+            this.articleStoreService.keepLoadingProcessUpdated();
+            this.displayProgressSpinner = false;
+            this.getArticles();
+          },
+          error: (error: any) => {
+            console.log('error');
+            console.log(error);
+            this.displayProgressSpinner = false;
+          }
+        });
       },
-      error: (error: any) => {
-        console.log('error');
-        console.log(error);
-      },
-      complete: () => {
+      error: (error) => {
+        console.error(error);
         this.displayProgressSpinner = false;
-        fileUpload.clear();
       }
+    }).add(() => {
+      console.log('add?');
     });
   }
 

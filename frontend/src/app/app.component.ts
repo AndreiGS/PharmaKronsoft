@@ -15,7 +15,7 @@ import { Message } from './shared/models/message';
 })
 export class AppComponent implements OnInit {
   title = 'frontend';
-  messages: Array<Message> = [];
+  
 
   constructor(public translate: TranslateService
               , public appStoreService: AppStoreService
@@ -30,10 +30,33 @@ export class AppComponent implements OnInit {
     this.appStoreService.fetchCountryList();
     this.appStoreService.fetchCityList();
     this.loadingProcessStoreService.fetchLoadingProcess();
-    this.requestNotificationsToken();
+    this.subscribeForNotifications();
+    //this.requestNotificationsToken();
   }
 
-  requestNotificationsToken() {
+  subscribeForNotifications()
+  {
+    this.msg.messages.subscribe((payload) => {
+      // Get the data about the notification
+      let notification = payload.notification;
+      console.log(payload);
+      if (notification == null) {
+        return;
+      }
+      // Create a Message object and add it to the array
+      const message: Message = {
+        title: notification.title ?? '',
+        body: notification.body ?? '',
+        iconUrl: notification.image,
+      };
+      this.appStoreService.addMessage(message);
+      setTimeout(() => {
+        this.appStoreService.deleteMessage(message);
+      }, 3000);
+    });
+  }
+
+ /* requestNotificationsToken() {
     this.msg.requestToken.subscribe({
       next: (token) => {
         this.http
@@ -60,27 +83,8 @@ export class AppComponent implements OnInit {
       },
     });
 
-    this.msg.messages.subscribe((payload) => {
-      // Get the data about the notification
-      let notification = payload.notification;
-      console.log(payload);
-      if (notification == null) {
-        return;
-      }
-      // Create a Message object and add it to the array
-      const message: Message = {
-        title: notification.title ?? '',
-        body: notification.body ?? '',
-        iconUrl: notification.image,
-      };
-      this.messages.push(message);
-      setTimeout(() => {
-        this.deleteNotification(message);
-      }, 3000);
-    });
-  }
+    
+  }*/
 
-  deleteNotification(message: Message) {
-    this.messages = this.messages.filter((el) => el != message);
-  }
+
 }
