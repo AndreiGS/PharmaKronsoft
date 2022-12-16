@@ -88,8 +88,6 @@ export class ArticleDisplayComponent implements OnInit {
         console.error(error);
         this.displayProgressSpinner = false;
       }
-    }).add(() => {
-      console.log('add?');
     });
   }
 
